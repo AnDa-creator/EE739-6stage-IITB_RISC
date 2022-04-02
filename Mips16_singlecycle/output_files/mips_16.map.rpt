@@ -1,0 +1,599 @@
+Analysis & Synthesis report for mips_16
+Thu Mar 31 19:48:06 2022
+Quartus Prime Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. Analysis & Synthesis DSP Block Usage Summary
+  9. Registers Removed During Synthesis
+ 10. General Register Statistics
+ 11. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 12. Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u8"
+ 13. Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u6"
+ 14. Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u5"
+ 15. Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u3"
+ 16. Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u2"
+ 17. Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u1"
+ 18. Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u0"
+ 19. Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u8"
+ 20. Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u7"
+ 21. Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u6"
+ 22. Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u5"
+ 23. Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u3"
+ 24. Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u2"
+ 25. Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u0"
+ 26. Post-Synthesis Netlist Statistics for Top Partition
+ 27. Elapsed Time Per Partition
+ 28. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2020  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
+
+
+
++-------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                  ;
++---------------------------------+---------------------------------------------+
+; Analysis & Synthesis Status     ; Successful - Thu Mar 31 19:48:06 2022       ;
+; Quartus Prime Version           ; 20.1.1 Build 720 11/11/2020 SJ Lite Edition ;
+; Revision Name                   ; mips_16                                     ;
+; Top-level Entity Name           ; mips_16                                     ;
+; Family                          ; Cyclone V                                   ;
+; Logic utilization (in ALMs)     ; N/A                                         ;
+; Total registers                 ; 127                                         ;
+; Total pins                      ; 34                                          ;
+; Total virtual pins              ; 0                                           ;
+; Total block memory bits         ; 0                                           ;
+; Total DSP Blocks                ; 1                                           ;
+; Total HSSI RX PCSs              ; 0                                           ;
+; Total HSSI PMA RX Deserializers ; 0                                           ;
+; Total HSSI TX PCSs              ; 0                                           ;
+; Total HSSI PMA TX Serializers   ; 0                                           ;
+; Total PLLs                      ; 0                                           ;
+; Total DLLs                      ; 0                                           ;
++---------------------------------+---------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                             ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                          ; Setting            ; Default Value      ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                          ; 5CGXFC7C7F23C8     ;                    ;
+; Top-level entity name                                                           ; mips_16            ; mips_16            ;
+; Family name                                                                     ; Cyclone V          ; Cyclone V          ;
+; Use smart compilation                                                           ; Off                ; Off                ;
+; Enable parallel Assembler and Timing Analyzer during compilation                ; On                 ; On                 ;
+; Enable compact report table                                                     ; Off                ; Off                ;
+; Restructure Multiplexers                                                        ; Auto               ; Auto               ;
+; MLAB Add Timing Constraints For Mixed-Port Feed-Through Mode Setting Don't Care ; Off                ; Off                ;
+; Create Debugging Nodes for IP Cores                                             ; Off                ; Off                ;
+; Preserve fewer node names                                                       ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                                   ; Enable             ; Enable             ;
+; Verilog Version                                                                 ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                                    ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                        ; Auto               ; Auto               ;
+; Safe State Machine                                                              ; Off                ; Off                ;
+; Extract Verilog State Machines                                                  ; On                 ; On                 ;
+; Extract VHDL State Machines                                                     ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                               ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                      ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                                  ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                         ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                       ; On                 ; On                 ;
+; Parallel Synthesis                                                              ; On                 ; On                 ;
+; DSP Block Balancing                                                             ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                              ; On                 ; On                 ;
+; Power-Up Don't Care                                                             ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                                    ; Off                ; Off                ;
+; Remove Duplicate Registers                                                      ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                            ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                          ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                           ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                       ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                            ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                             ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                                  ; Off                ; Off                ;
+; Optimization Technique                                                          ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                              ; 70                 ; 70                 ;
+; Auto Carry Chains                                                               ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                            ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                           ; Off                ; Off                ;
+; Auto ROM Replacement                                                            ; On                 ; On                 ;
+; Auto RAM Replacement                                                            ; On                 ; On                 ;
+; Auto DSP Block Replacement                                                      ; On                 ; On                 ;
+; Auto Shift Register Replacement                                                 ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                                 ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                                   ; On                 ; On                 ;
+; Strict RAM Replacement                                                          ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                               ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                          ; Off                ; Off                ;
+; Auto Resource Sharing                                                           ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                                   ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                             ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                               ; Off                ; Off                ;
+; Timing-Driven Synthesis                                                         ; On                 ; On                 ;
+; Report Parameter Settings                                                       ; On                 ; On                 ;
+; Report Source Assignments                                                       ; On                 ; On                 ;
+; Report Connectivity Checks                                                      ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                              ; Off                ; Off                ;
+; Synchronization Register Chain Length                                           ; 3                  ; 3                  ;
+; Power Optimization During Synthesis                                             ; Normal compilation ; Normal compilation ;
+; HDL message level                                                               ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                                 ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                        ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                              ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                       ; 100                ; 100                ;
+; Clock MUX Protection                                                            ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                                     ; Off                ; Off                ;
+; Block Design Naming                                                             ; Auto               ; Auto               ;
+; SDC constraint protection                                                       ; Off                ; Off                ;
+; Synthesis Effort                                                                ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal                    ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                                            ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                                              ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                     ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                                          ; On                 ; On                 ;
+; Automatic Parallel Synthesis                                                    ; On                 ; On                 ;
+; Partial Reconfiguration Bitstream ID                                            ; Off                ; Off                ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 8           ;
+; Maximum allowed            ; 8           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 8           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processors 2-8         ;   0.0%      ;
++----------------------------+-------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                            ;
++----------------------------------+-----------------+------------------------+-----------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type              ; File Name with Absolute Path                                                                              ; Library ;
++----------------------------------+-----------------+------------------------+-----------------------------------------------------------------------------------------------------------+---------+
+; regFile.v                        ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/regFile.v        ;         ;
+; mux.v                            ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mux.v            ;         ;
+; mips_16.v                        ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mips_16.v        ;         ;
+; InstrMem.v                       ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/InstrMem.v       ;         ;
+; dataMem.v                        ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/dataMem.v        ;         ;
+; ctrlUnit.v                       ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/ctrlUnit.v       ;         ;
+; BarrelShifters.v                 ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/BarrelShifters.v ;         ;
+; ALUCtrl.v                        ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/ALUCtrl.v        ;         ;
+; ALU.v                            ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/ALU.v            ;         ;
++----------------------------------+-----------------+------------------------+-----------------------------------------------------------------------------------------------------------+---------+
+
+
++-----------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary               ;
++---------------------------------------------+-------------+
+; Resource                                    ; Usage       ;
++---------------------------------------------+-------------+
+; Estimate of Logic utilization (ALMs needed) ; 222         ;
+;                                             ;             ;
+; Combinational ALUT usage for logic          ; 303         ;
+;     -- 7 input functions                    ; 2           ;
+;     -- 6 input functions                    ; 128         ;
+;     -- 5 input functions                    ; 110         ;
+;     -- 4 input functions                    ; 21          ;
+;     -- <=3 input functions                  ; 42          ;
+;                                             ;             ;
+; Dedicated logic registers                   ; 127         ;
+;                                             ;             ;
+; I/O pins                                    ; 34          ;
+;                                             ;             ;
+; Total DSP Blocks                            ; 1           ;
+;                                             ;             ;
+; Maximum fan-out node                        ; reset~input ;
+; Maximum fan-out                             ; 141         ;
+; Total fan-out                               ; 2112        ;
+; Average fan-out                             ; 4.23        ;
++---------------------------------------------+-------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                      ;
++-----------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------+---------------+--------------+
+; Compilation Hierarchy Node        ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                          ; Entity Name   ; Library Name ;
++-----------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------+---------------+--------------+
+; |mips_16                          ; 303 (90)            ; 127 (15)                  ; 0                 ; 1          ; 34   ; 0            ; |mips_16                                                     ; mips_16       ; work         ;
+;    |ALUControl:ALU_Control_unit|  ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|ALUControl:ALU_Control_unit                         ; ALUControl    ; work         ;
+;    |alu:alu_unit|                 ; 126 (97)            ; 0 (0)                     ; 0                 ; 1          ; 0    ; 0            ; |mips_16|alu:alu_unit                                        ; alu           ; work         ;
+;       |sll_barrel:sll0|           ; 13 (0)              ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0                        ; sll_barrel    ; work         ;
+;          |mux21:LshiftBy2[0].u4|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:LshiftBy2[0].u4  ; mux21         ; work         ;
+;          |mux21:LshiftBy2[1].u4|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:LshiftBy2[1].u4  ; mux21         ; work         ;
+;          |mux21:LshiftBy2[2].u4|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:LshiftBy2[2].u4  ; mux21         ; work         ;
+;          |mux21:LshiftBy2[3].u4|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:LshiftBy2[3].u4  ; mux21         ; work         ;
+;          |mux21:LshiftBy2[4].u4|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:LshiftBy2[4].u4  ; mux21         ; work         ;
+;          |mux21:LshiftBy2[5].u4|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:LshiftBy2[5].u4  ; mux21         ; work         ;
+;          |mux21:LshiftBy2[6].u4|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:LshiftBy2[6].u4  ; mux21         ; work         ;
+;          |mux21:LshiftBy2[7].u4|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:LshiftBy2[7].u4  ; mux21         ; work         ;
+;          |mux21:LshiftBy2[8].u4|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:LshiftBy2[8].u4  ; mux21         ; work         ;
+;          |mux21:LshiftBy2[9].u4|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:LshiftBy2[9].u4  ; mux21         ; work         ;
+;          |mux21:u2|               ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:u2               ; mux21         ; work         ;
+;          |mux21:u3|               ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:u3               ; mux21         ; work         ;
+;          |mux21:u5|               ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:u5               ; mux21         ; work         ;
+;       |srl_barrel:srl0|           ; 16 (0)              ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0                        ; srl_barrel    ; work         ;
+;          |mux21:RshiftBy1[10].u9| ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy1[10].u9 ; mux21         ; work         ;
+;          |mux21:RshiftBy1[12].u9| ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy1[12].u9 ; mux21         ; work         ;
+;          |mux21:RshiftBy2[0].u7|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy2[0].u7  ; mux21         ; work         ;
+;          |mux21:RshiftBy2[1].u7|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy2[1].u7  ; mux21         ; work         ;
+;          |mux21:RshiftBy2[2].u7|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy2[2].u7  ; mux21         ; work         ;
+;          |mux21:RshiftBy2[3].u7|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy2[3].u7  ; mux21         ; work         ;
+;          |mux21:RshiftBy2[4].u7|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy2[4].u7  ; mux21         ; work         ;
+;          |mux21:RshiftBy2[5].u7|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy2[5].u7  ; mux21         ; work         ;
+;          |mux21:RshiftBy2[6].u7|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy2[6].u7  ; mux21         ; work         ;
+;          |mux21:RshiftBy2[7].u7|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy2[7].u7  ; mux21         ; work         ;
+;          |mux21:RshiftBy2[8].u7|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy2[8].u7  ; mux21         ; work         ;
+;          |mux21:RshiftBy2[9].u7|  ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy2[9].u7  ; mux21         ; work         ;
+;          |mux21:RshiftBy4[10].u4| ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy4[10].u4 ; mux21         ; work         ;
+;          |mux21:RshiftBy4[11].u4| ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy4[11].u4 ; mux21         ; work         ;
+;          |mux21:u2|               ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:u2               ; mux21         ; work         ;
+;          |mux21:u3|               ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:u3               ; mux21         ; work         ;
+;    |control:control_unit|         ; 2 (2)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|control:control_unit                                ; control       ; work         ;
+;    |instr_mem:instrucion_memory|  ; 5 (5)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |mips_16|instr_mem:instrucion_memory                         ; instr_mem     ; work         ;
+;    |register_file:reg_file|       ; 73 (73)             ; 112 (112)                 ; 0                 ; 0          ; 0    ; 0            ; |mips_16|register_file:reg_file                              ; register_file ; work         ;
++-----------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------+---------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++-----------------------------------------------+
+; Analysis & Synthesis DSP Block Usage Summary  ;
++---------------------------------+-------------+
+; Statistic                       ; Number Used ;
++---------------------------------+-------------+
+; Independent 9x9                 ; 1           ;
+; Total number of DSP blocks      ; 1           ;
+;                                 ;             ;
+; Fixed Point Unsigned Multiplier ; 1           ;
++---------------------------------+-------------+
+
+
++---------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                    ;
++-----------------------------------------+---------------------------------------------+
+; Register name                           ; Reason for Removal                          ;
++-----------------------------------------+---------------------------------------------+
+; pc_current[0]                           ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][15] ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][14] ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][13] ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][12] ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][11] ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][10] ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][9]  ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][8]  ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][7]  ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][6]  ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][5]  ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][4]  ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][3]  ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][2]  ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][1]  ; Stuck at GND due to stuck port clock_enable ;
+; register_file:reg_file|reg_array[7][0]  ; Stuck at GND due to stuck port clock_enable ;
+; Total Number of Removed Registers = 17  ;                                             ;
++-----------------------------------------+---------------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 127   ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 127   ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 112   ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                      ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------+
+; 4:1                ; 9 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; No         ; |mips_16|alu:alu_unit|sll_barrel:sll0|mux21:LshiftBy2[5].u4|or2 ;
+; 4:1                ; 9 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; No         ; |mips_16|alu:alu_unit|srl_barrel:srl0|mux21:RshiftBy2[9].u7|or2 ;
+; 9:1                ; 3 bits    ; 18 LEs        ; 15 LEs               ; 3 LEs                  ; No         ; |mips_16|alu:alu_unit|Mux13                                     ;
+; 9:1                ; 16 bits   ; 96 LEs        ; 96 LEs               ; 0 LEs                  ; No         ; |mips_16|register_file:reg_file|reg_read_data_1[14]             ;
+; 10:1               ; 16 bits   ; 96 LEs        ; 96 LEs               ; 0 LEs                  ; No         ; |mips_16|read_data2[13]                                         ;
+; 10:1               ; 5 bits    ; 30 LEs        ; 30 LEs               ; 0 LEs                  ; No         ; |mips_16|alu:alu_unit|Mux11                                     ;
+; 12:1               ; 3 bits    ; 24 LEs        ; 21 LEs               ; 3 LEs                  ; No         ; |mips_16|alu:alu_unit|Mux0                                      ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u8" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u6" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u5" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u3" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u2" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u1" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|srl_barrel:srl0|mux21:u0" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u8" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u7" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u6" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u5" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u3" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u2" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-------------------------------------------------------------------+
+; Port Connectivity Checks: "alu:alu_unit|sll_barrel:sll0|mux21:u0" ;
++------+-------+----------+-----------------------------------------+
+; Port ; Type  ; Severity ; Details                                 ;
++------+-------+----------+-----------------------------------------+
+; B    ; Input ; Info     ; Stuck at GND                            ;
++------+-------+----------+-----------------------------------------+
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; arriav_ff             ; 127                         ;
+;     CLR               ; 15                          ;
+;     ENA CLR           ; 112                         ;
+; arriav_lcell_comb     ; 304                         ;
+;     arith             ; 32                          ;
+;         1 data inputs ; 16                          ;
+;         3 data inputs ; 16                          ;
+;     extend            ; 2                           ;
+;         7 data inputs ; 2                           ;
+;     normal            ; 270                         ;
+;         0 data inputs ; 1                           ;
+;         2 data inputs ; 2                           ;
+;         3 data inputs ; 8                           ;
+;         4 data inputs ; 21                          ;
+;         5 data inputs ; 110                         ;
+;         6 data inputs ; 128                         ;
+; arriav_mac            ; 1                           ;
+; boundary_port         ; 34                          ;
+;                       ;                             ;
+; Max LUT depth         ; 9.00                        ;
+; Average LUT depth     ; 6.67                        ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:03     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
+    Info: Processing started: Thu Mar 31 19:47:46 2022
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off mips_16 -c mips_16
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 8 of the 8 processors detected
+Info (12021): Found 1 design units, including 1 entities, in source file regfile.v
+    Info (12023): Found entity 1: register_file File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/regFile.v Line: 3
+Info (12021): Found 2 design units, including 2 entities, in source file mux.v
+    Info (12023): Found entity 1: mux2x5to5 File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mux.v Line: 3
+    Info (12023): Found entity 2: mux21 File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mux.v Line: 14
+Info (12021): Found 1 design units, including 1 entities, in source file mips_tb.v
+    Info (12023): Found entity 1: tb_mips16 File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mips_tb.v Line: 5
+Info (12021): Found 1 design units, including 1 entities, in source file mips_16.v
+    Info (12023): Found entity 1: mips_16 File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mips_16.v Line: 4
+Info (12021): Found 1 design units, including 1 entities, in source file lfshiftreg.v
+    Info (12023): Found entity 1: internal_xor_5_bit_lfsr File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/LFShiftReg.V Line: 3
+Info (12021): Found 1 design units, including 1 entities, in source file instrmem.v
+    Info (12023): Found entity 1: instr_mem File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/InstrMem.v Line: 3
+Info (12021): Found 1 design units, including 1 entities, in source file fulladder.v
+    Info (12023): Found entity 1: adder File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/fullAdder.v Line: 3
+Info (12021): Found 1 design units, including 1 entities, in source file fourbitcounter.v
+    Info (12023): Found entity 1: counter File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/fourBitCounter.v Line: 3
+Info (12021): Found 1 design units, including 1 entities, in source file dflipflop.v
+    Info (12023): Found entity 1: D_FF File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/dFlipFlop.v Line: 3
+Info (12021): Found 3 design units, including 3 entities, in source file decoder.v
+    Info (12023): Found entity 1: decoder File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/decoder.v Line: 3
+    Info (12023): Found entity 2: andmore File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/decoder.v Line: 42
+    Info (12023): Found entity 3: dec5to32 File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/decoder.v Line: 48
+Info (12021): Found 1 design units, including 1 entities, in source file datamem.v
+    Info (12023): Found entity 1: data_memory File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/dataMem.v Line: 4
+Info (12021): Found 1 design units, including 1 entities, in source file ctrlunit.v
+    Info (12023): Found entity 1: control File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/ctrlUnit.v Line: 4
+Info (12021): Found 2 design units, including 2 entities, in source file barrelshifters.v
+    Info (12023): Found entity 1: sll_barrel File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/BarrelShifters.v Line: 2
+    Info (12023): Found entity 2: srl_barrel File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/BarrelShifters.v Line: 40
+Info (12021): Found 2 design units, including 2 entities, in source file aluctrl.v
+    Info (12023): Found entity 1: ALUControl File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/ALUCtrl.v Line: 4
+    Info (12023): Found entity 2: JR_Control File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/ALUCtrl.v Line: 27
+Info (12021): Found 1 design units, including 1 entities, in source file alu.v
+    Info (12023): Found entity 1: alu File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/ALU.v Line: 3
+Warning (10236): Verilog HDL Implicit Net warning at mux.v(19): created implicit net for "nsel" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mux.v Line: 19
+Warning (10236): Verilog HDL Implicit Net warning at mux.v(20): created implicit net for "O1" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mux.v Line: 20
+Warning (10236): Verilog HDL Implicit Net warning at mux.v(21): created implicit net for "O2" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mux.v Line: 21
+Warning (10236): Verilog HDL Implicit Net warning at fullAdder.v(9): created implicit net for "c1" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/fullAdder.v Line: 9
+Warning (10236): Verilog HDL Implicit Net warning at fullAdder.v(10): created implicit net for "c2" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/fullAdder.v Line: 10
+Warning (10236): Verilog HDL Implicit Net warning at fullAdder.v(11): created implicit net for "c3" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/fullAdder.v Line: 11
+Warning (10236): Verilog HDL Implicit Net warning at decoder.v(45): created implicit net for "f1" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/decoder.v Line: 45
+Warning (10236): Verilog HDL Implicit Net warning at decoder.v(51): created implicit net for "Nota" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/decoder.v Line: 51
+Warning (10236): Verilog HDL Implicit Net warning at decoder.v(52): created implicit net for "Notb" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/decoder.v Line: 52
+Warning (10236): Verilog HDL Implicit Net warning at decoder.v(53): created implicit net for "Notc" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/decoder.v Line: 53
+Warning (10236): Verilog HDL Implicit Net warning at decoder.v(54): created implicit net for "Notd" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/decoder.v Line: 54
+Warning (10236): Verilog HDL Implicit Net warning at decoder.v(55): created implicit net for "Note" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/decoder.v Line: 55
+Info (12127): Elaborating entity "mips_16" for the top level hierarchy
+Info (12128): Elaborating entity "instr_mem" for hierarchy "instr_mem:instrucion_memory" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mips_16.v Line: 41
+Warning (10030): Net "rom.data_a" at InstrMem.v(19) has no driver or initial value, using a default initial value '0' File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/InstrMem.v Line: 19
+Warning (10030): Net "rom.waddr_a" at InstrMem.v(19) has no driver or initial value, using a default initial value '0' File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/InstrMem.v Line: 19
+Warning (10030): Net "rom.we_a" at InstrMem.v(19) has no driver or initial value, using a default initial value '0' File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/InstrMem.v Line: 19
+Info (12128): Elaborating entity "control" for hierarchy "control:control_unit" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mips_16.v Line: 47
+Info (12128): Elaborating entity "register_file" for hierarchy "register_file:reg_file" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mips_16.v Line: 59
+Info (12128): Elaborating entity "JR_Control" for hierarchy "JR_Control:JRControl_unit" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mips_16.v Line: 67
+Info (12128): Elaborating entity "ALUControl" for hierarchy "ALUControl:ALU_Control_unit" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mips_16.v Line: 69
+Info (12128): Elaborating entity "alu" for hierarchy "alu:alu_unit" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mips_16.v Line: 73
+Info (12128): Elaborating entity "sll_barrel" for hierarchy "alu:alu_unit|sll_barrel:sll0" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/ALU.v Line: 11
+Info (12128): Elaborating entity "mux21" for hierarchy "alu:alu_unit|sll_barrel:sll0|mux21:u0" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/BarrelShifters.v Line: 13
+Info (12128): Elaborating entity "srl_barrel" for hierarchy "alu:alu_unit|srl_barrel:srl0" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/ALU.v Line: 12
+Info (12128): Elaborating entity "data_memory" for hierarchy "data_memory:datamem" File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mips_16.v Line: 95
+Info (276014): Found 2 instances of uninferred RAM logic
+    Info (276007): RAM logic "data_memory:datamem|ram" is uninferred due to asynchronous read logic File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/dataMem.v Line: 17
+    Info (276004): RAM logic "instr_mem:instrucion_memory|rom" is uninferred due to inappropriate RAM size File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/InstrMem.v Line: 19
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "pc_out[0]" is stuck at GND File: E:/Semester_8/EE705/Unit-23 MIP cpu related  ( contact TA  Harsh Paryani )-20220327/Work/mips_16.v Line: 5
+Info (286030): Timing-Driven Synthesis is running
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 450 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 2 input pins
+    Info (21059): Implemented 32 output pins
+    Info (21061): Implemented 415 logic cells
+    Info (21062): Implemented 1 DSP elements
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 18 warnings
+    Info: Peak virtual memory: 4861 megabytes
+    Info: Processing ended: Thu Mar 31 19:48:06 2022
+    Info: Elapsed time: 00:00:20
+    Info: Total CPU time (on all processors): 00:00:17
+
+

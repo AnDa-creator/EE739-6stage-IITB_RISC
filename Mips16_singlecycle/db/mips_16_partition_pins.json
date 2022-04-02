@@ -1,0 +1,141 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "pc_out[1]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[2]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[3]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[4]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[5]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[6]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[7]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[8]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[9]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[10]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[11]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[12]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[13]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[14]",
+					"strict" : false
+				},
+				{
+					"name" : "pc_out[15]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[0]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[1]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[2]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[3]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[4]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[5]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[6]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[7]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[8]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[9]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[10]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[11]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[12]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[13]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[14]",
+					"strict" : false
+				},
+				{
+					"name" : "alu_result[15]",
+					"strict" : false
+				},
+				{
+					"name" : "reset",
+					"strict" : false
+				},
+				{
+					"name" : "clk",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
