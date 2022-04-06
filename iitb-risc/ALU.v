@@ -1,3 +1,4 @@
+// SubModule ALU
 module alu(       
       input          [15:0]     a,              //src1  
       input          [15:0]     b,              //src2  

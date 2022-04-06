@@ -1,3 +1,4 @@
+// SubModule :: ALU Control 
 module ALUControl( ALU_Control, ALUOp, Function, carry_in, zero_in);
 output reg[1:0] ALU_Control;  
 input [3:0] ALUOp;  
