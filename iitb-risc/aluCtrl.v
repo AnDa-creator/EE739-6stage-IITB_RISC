@@ -31,7 +31,7 @@ module ALUControl
         NDU: ALU_Control = 2'b01;                            // NAND
         NDC: ALU_Control =  (carry_in == 1) ? 2'b01: 2'b10;  // if carry_in is 1, then ALU_Control = 2'b01, otherwise 2'b10
         NDZ: ALU_Control =  (zero_in == 1) ? 2'b01: 2'b10;   // if zero_in is 1, then ALU_Control = 2'b01, otherwise 2'b10
-        default: ALU_Control = 3'b010;                        // NOP
+        default: ALU_Control = 3'b010;                       // NOP
     endcase
 
 endmodule
