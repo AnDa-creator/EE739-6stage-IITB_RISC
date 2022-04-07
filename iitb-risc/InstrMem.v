@@ -30,6 +30,6 @@
         rom[7] = 16'b0000011011110111; // srl $r7, $r1, $r5;
     end
 
-    assign instruction = (pc[15:0] < 48 ) ? rom[rom_addr[3:0]]: 16'd0;
+    assign instruction = (pc[15:0] < 48) ? rom[rom_addr[3:0]]: 16'd0;
 
 endmodule
