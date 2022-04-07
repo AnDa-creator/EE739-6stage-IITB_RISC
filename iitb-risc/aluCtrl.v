@@ -5,8 +5,8 @@ module ALUControl
     input [3:0] ALUOp,
     input [1:0] Function,
     input carry_in,
-    input zero_in,
-)
+    input zero_in
+);
 
     wire [5:0] ALUControlIn;
     assign ALUControlIn = {ALUOp,Function};

@@ -25,12 +25,11 @@
         if (mem_write_en && ~rst) 
             ram[ram_addr] <= mem_write_data;
 
-        always @(posedge clk) begin
-            if (rst) 
-            begin
-                for(i=0; i<4096; i=i+1)
-                    ram[i] <= 16'd0;
-            end
+        if (rst) 
+        begin
+            for(i=0; i<4096; i=i+1)
+                ram[i] <= 16'd0;
+        end
     end
       assign mem_read_data = (mem_read == 1'b1) ? ram[ram_addr]: 16'd0;
 
