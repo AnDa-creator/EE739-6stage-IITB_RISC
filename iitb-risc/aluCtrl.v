@@ -21,18 +21,19 @@ module ALUControl
     parameter NDZ = 6'b001001; // ADD anything we want later
 
 
-    always @(ALUControlIn)
-    case (ALUControlIn)
-        ADD: ALU_Control = 2'b00;                           // ADD
-        ADC: ALU_Control = (carry_in == 1) ? 2'b00: 2'b10;  // if carry_in is 1, then ALU_Control = 2'b00, otherwise 2'b10
-        ADZ: ALU_Control = (zero_in == 1) ? 2'b00: 2'b10;   // if zero_in is 1, then ALU_Control = 2'b00, otherwise 2'b10
-        ADL: ALU_Control =  2'b00;                          // ADD
-        {ADI,2'b00}: ALU_Control = 2'b00;                   // ADD
-        NDU: ALU_Control = 2'b01;                            // NAND
-        NDC: ALU_Control =  (carry_in == 1) ? 2'b01: 2'b10;  // if carry_in is 1, then ALU_Control = 2'b01, otherwise 2'b10
-        NDZ: ALU_Control =  (zero_in == 1) ? 2'b01: 2'b10;   // if zero_in is 1, then ALU_Control = 2'b01, otherwise 2'b10
-        default: ALU_Control = 3'b010;                        // NOP
-    endcase
+    always @(ALUControlIn) begin
+        case (ALUControlIn)
+            ADD: ALU_Control = 2'b00;                           // ADD
+            ADC: ALU_Control = (carry_in == 1) ? 2'b00: 2'b10;  // if carry_in is 1, then ALU_Control = 2'b00, otherwise 2'b10
+            ADZ: ALU_Control = (zero_in == 1) ? 2'b00: 2'b10;   // if zero_in is 1, then ALU_Control = 2'b00, otherwise 2'b10
+            ADL: ALU_Control =  2'b00;                          // ADD
+            {ADI,2'b00}: ALU_Control = 2'b00;                   // ADD
+            NDU: ALU_Control = 2'b01;                            // NAND
+            NDC: ALU_Control =  (carry_in == 1) ? 2'b01: 2'b10;  // if carry_in is 1, then ALU_Control = 2'b01, otherwise 2'b10
+            NDZ: ALU_Control =  (zero_in == 1) ? 2'b01: 2'b10;   // if zero_in is 1, then ALU_Control = 2'b01, otherwise 2'b10
+            default: ALU_Control = 3'b010;                        // NOP
+        endcase
+    end
 
 endmodule
 

@@ -14,23 +14,24 @@
     reg     [15:0] ram [4096:0];
     wire    [11:0] ram_addr = mem_access_addr [11:0];
 
-    initial
-    begin
-        for(i=0; i<4096; i=i+1)
+    initial begin
+        for(i=0; i<4096; i=i+1) begin
             ram[i] <= 16'd0;
-    end
-
-    always @(posedge clk)
-    begin
-        if (mem_write_en && ~rst) 
-            ram[ram_addr] <= mem_write_data;
-
-        if (rst) 
-        begin
-            for(i=0; i<4096; i=i+1)
-                ram[i] <= 16'd0;
         end
     end
-      assign mem_read_data = (mem_read == 1'b1) ? ram[ram_addr]: 16'd0;
+
+    always @(posedge clk) begin
+        if (mem_write_en && ~rst) begin
+            ram[ram_addr] <= mem_write_data;
+        end
+
+        if (rst) begin
+            for(i=0; i<4096; i=i+1) begin
+                ram[i] <= 16'd0;
+            end
+        end
+    end
+      
+    assign mem_read_data = (mem_read == 1'b1) ? ram[ram_addr]: 16'd0;
 
 endmodule

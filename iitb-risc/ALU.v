@@ -17,8 +17,7 @@ module alu
         result = 0;
     end
 
-    always @(*)
-    begin
+    always @(*) begin
         case(alu_control)
             2'b00: total_sum = {1'b0, a} + {1'b0, b};   // add
             2'b01: result = ~(a & b);                 // Nand
@@ -26,8 +25,7 @@ module alu
         endcase
     end
 
-    always @(*)
-    begin
+    always @(*) begin
         result = (alu_control == 2'b00) ? total_sum[15:0]: result;                       //result
         zero = (result == 16'd0) ? 1'b1: 1'b0;                                             //zero
         carry = (total_sum[16] == 1'b1) ? 1'b1: 1'b0;                                      //carry
