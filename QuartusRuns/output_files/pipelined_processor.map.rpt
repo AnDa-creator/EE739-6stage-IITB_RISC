@@ -1,5 +1,5 @@
 Analysis & Synthesis report for pipelined_processor
-Sun Apr 10 15:37:46 2022
+Sun Apr 10 16:27:37 2022
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 
 
@@ -77,7 +77,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Sun Apr 10 15:37:46 2022       ;
+; Analysis & Synthesis Status     ; Successful - Sun Apr 10 16:27:36 2022       ;
 ; Quartus Prime Version           ; 20.1.1 Build 720 11/11/2020 SJ Lite Edition ;
 ; Revision Name                   ; pipelined_processor                         ;
 ; Top-level Entity Name           ; pipelined_processor                         ;
@@ -209,6 +209,7 @@ https://fpgasoftware.intel.com/eula.
 ; ../iitb-risc/Stage56_MM2WB.v     ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/Stage56_MM2WB.v     ;         ;
 ; ../iitb-risc/Stage45_EX2MM.v     ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/Stage45_EX2MM.v     ;         ;
 ; ../iitb-risc/Stage34_RR2EX.v     ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/Stage34_RR2EX.v     ;         ;
+; ../iitb-risc/Stage23_ID2RR.v     ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/Stage23_ID2RR.v     ;         ;
 ; ../iitb-risc/Stage12_IF2ID.v     ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/Stage12_IF2ID.v     ;         ;
 ; ../iitb-risc/registerBank.v      ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/registerBank.v      ;         ;
 ; ../iitb-risc/mux.v               ; yes             ; User Verilog HDL File  ; E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/mux.v               ;         ;
@@ -656,7 +657,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
-    Info: Processing started: Sun Apr 10 15:36:17 2022
+    Info: Processing started: Sun Apr 10 16:26:53 2022
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off IITB_risc -c pipelined_processor
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 8 of the 8 processors detected
@@ -696,13 +697,17 @@ Info (12021): Found 1 design units, including 1 entities, in source file /semest
     Info (12023): Found entity 1: alu_ctrl File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/aluCtrl.v Line: 2
 Info (12021): Found 1 design units, including 1 entities, in source file /semester_8/ee739/project/ee739-6stage-iitb_risc/iitb-risc/alu.v
     Info (12023): Found entity 1: alu File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/ALU.v Line: 2
-Warning (10236): Verilog HDL Implicit Net warning at topModule.v(425): created implicit net for "dm_wr_en" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 425
-Warning (10236): Verilog HDL Implicit Net warning at topModule.v(426): created implicit net for "reg_wr_en_from_mem" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 426
+Warning (10236): Verilog HDL Implicit Net warning at topModule.v(219): created implicit net for "id_rr_reg_reset" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 219
+Warning (10236): Verilog HDL Implicit Net warning at topModule.v(220): created implicit net for "id_rr_pipe_rg_en" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 220
+Warning (10236): Verilog HDL Implicit Net warning at topModule.v(228): created implicit net for "rr_ex_reg_reset" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 228
+Warning (10236): Verilog HDL Implicit Net warning at topModule.v(229): created implicit net for "rr_ex_pipe_rg_en" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 229
+Warning (10236): Verilog HDL Implicit Net warning at topModule.v(428): created implicit net for "dm_wr_en" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 428
+Warning (10236): Verilog HDL Implicit Net warning at topModule.v(429): created implicit net for "reg_wr_en_from_mem" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 429
 Info (12127): Elaborating entity "pipelined_processor" for the top level hierarchy
 Warning (10230): Verilog HDL assignment warning at topModule.v(134): truncated value with size 32 to match size of target (16) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 134
-Warning (10240): Verilog HDL Always Construct warning at topModule.v(249): inferring latch(es) for variable "zero_flag", which holds its previous value in one or more paths through the always construct File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 249
-Warning (10230): Verilog HDL assignment warning at topModule.v(492): truncated value with size 32 to match size of target (2) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 492
-Info (10041): Inferred latch for "zero_flag" at topModule.v(249) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 249
+Warning (10240): Verilog HDL Always Construct warning at topModule.v(252): inferring latch(es) for variable "zero_flag", which holds its previous value in one or more paths through the always construct File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 252
+Warning (10230): Verilog HDL assignment warning at topModule.v(495): truncated value with size 32 to match size of target (2) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 495
+Info (10041): Inferred latch for "zero_flag" at topModule.v(252) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 252
 Info (12128): Elaborating entity "register_n" for hierarchy "register_n:program_counter" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 132
 Info (12128): Elaborating entity "instr_mem" for hierarchy "instr_mem:instr_mem1" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 133
 Warning (10855): Verilog HDL warning at InstrMem.v(23): initial value for variable rom should be constant File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/InstrMem.v Line: 23
@@ -717,8 +722,9 @@ Info (12128): Elaborating entity "mux_21" for hierarchy "mux_21:mux_a1" File: E:
 Info (12128): Elaborating entity "register_bank" for hierarchy "register_bank:register_file" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 196
 Warning (10230): Verilog HDL assignment warning at registerBank.v(52): truncated value with size 32 to match size of target (16) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/registerBank.v Line: 52
 Info (12128): Elaborating entity "mux_21" for hierarchy "mux_21:nop_rr_wr_en_mux" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 215
-Info (12128): Elaborating entity "RR2EX_Pipline_Reg" for hierarchy "RR2EX_Pipline_Reg:rr_ex_pipe_reg" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 230
-Info (12128): Elaborating entity "alu_ctrl" for hierarchy "alu_ctrl:alu_control" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 240
+Info (12128): Elaborating entity "ID2RR_Pipline_Reg" for hierarchy "ID2RR_Pipline_Reg:id_rr_pipe_reg" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 225
+Info (12128): Elaborating entity "RR2EX_Pipline_Reg" for hierarchy "RR2EX_Pipline_Reg:rr_ex_pipe_reg" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 233
+Info (12128): Elaborating entity "alu_ctrl" for hierarchy "alu_ctrl:alu_control" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 243
 Warning (10235): Verilog HDL Always Construct warning at aluCtrl.v(30): variable "reg_write_enable_in" is read inside the Always Construct but isn't in the Always Construct's Event Control File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/aluCtrl.v Line: 30
 Warning (10235): Verilog HDL Always Construct warning at aluCtrl.v(38): variable "carry_in" is read inside the Always Construct but isn't in the Always Construct's Event Control File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/aluCtrl.v Line: 38
 Warning (10235): Verilog HDL Always Construct warning at aluCtrl.v(38): variable "reg_write_enable_in" is read inside the Always Construct but isn't in the Always Construct's Event Control File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/aluCtrl.v Line: 38
@@ -740,9 +746,9 @@ Info (10041): Inferred latch for "alu_operation_out[1]" at aluCtrl.v(27) File: E
 Info (10041): Inferred latch for "reg_write_enable_out" at aluCtrl.v(27) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/aluCtrl.v Line: 27
 Info (10041): Inferred latch for "zero_write_en" at aluCtrl.v(27) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/aluCtrl.v Line: 27
 Info (10041): Inferred latch for "carry_write_en" at aluCtrl.v(27) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/aluCtrl.v Line: 27
-Info (12128): Elaborating entity "register_n" for hierarchy "register_n:carry_register" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 243
-Info (12128): Elaborating entity "forwarding_control_unit" for hierarchy "forwarding_control_unit:forwardlogic" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 262
-Info (12128): Elaborating entity "alu" for hierarchy "alu:alu_execute" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 337
+Info (12128): Elaborating entity "register_n" for hierarchy "register_n:carry_register" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 246
+Info (12128): Elaborating entity "forwarding_control_unit" for hierarchy "forwarding_control_unit:forwardlogic" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 265
+Info (12128): Elaborating entity "alu" for hierarchy "alu:alu_execute" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 340
 Warning (10240): Verilog HDL Always Construct warning at ALU.v(21): inferring latch(es) for variable "total_sum", which holds its previous value in one or more paths through the always construct File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/ALU.v Line: 21
 Warning (10240): Verilog HDL Always Construct warning at ALU.v(21): inferring latch(es) for variable "result", which holds its previous value in one or more paths through the always construct File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/ALU.v Line: 21
 Info (10041): Inferred latch for "result[0]" at ALU.v(21) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/ALU.v Line: 21
@@ -778,9 +784,9 @@ Info (10041): Inferred latch for "total_sum[13]" at ALU.v(21) File: E:/Semester_
 Info (10041): Inferred latch for "total_sum[14]" at ALU.v(21) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/ALU.v Line: 21
 Info (10041): Inferred latch for "total_sum[15]" at ALU.v(21) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/ALU.v Line: 21
 Info (10041): Inferred latch for "total_sum[16]" at ALU.v(21) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/ALU.v Line: 21
-Info (12128): Elaborating entity "mux_41" for hierarchy "mux_41:rf_d3_addr_select" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 342
-Info (12128): Elaborating entity "EX2MEM_Pipline_Reg" for hierarchy "EX2MEM_Pipline_Reg:ex_mem_pipe_reg" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 367
-Info (12128): Elaborating entity "load_store_multi_block" for hierarchy "load_store_multi_block:la_sa_lm_sm_block" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 381
+Info (12128): Elaborating entity "mux_41" for hierarchy "mux_41:rf_d3_addr_select" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 345
+Info (12128): Elaborating entity "EX2MEM_Pipline_Reg" for hierarchy "EX2MEM_Pipline_Reg:ex_mem_pipe_reg" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 370
+Info (12128): Elaborating entity "load_store_multi_block" for hierarchy "load_store_multi_block:la_sa_lm_sm_block" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 384
 Warning (10230): Verilog HDL assignment warning at loadStoreMultiple.v(29): truncated value with size 8 to match size of target (7) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/loadStoreMultiple.v Line: 29
 Warning (10240): Verilog HDL Always Construct warning at loadStoreMultiple.v(29): inferring latch(es) for variable "mem_data_for_sa_sm", which holds its previous value in one or more paths through the always construct File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/loadStoreMultiple.v Line: 29
 Warning (10230): Verilog HDL assignment warning at loadStoreMultiple.v(75): truncated value with size 32 to match size of target (3) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/loadStoreMultiple.v Line: 75
@@ -802,10 +808,10 @@ Info (10041): Inferred latch for "mem_data_for_sa_sm[12]" at loadStoreMultiple.v
 Info (10041): Inferred latch for "mem_data_for_sa_sm[13]" at loadStoreMultiple.v(57) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/loadStoreMultiple.v Line: 57
 Info (10041): Inferred latch for "mem_data_for_sa_sm[14]" at loadStoreMultiple.v(57) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/loadStoreMultiple.v Line: 57
 Info (10041): Inferred latch for "mem_data_for_sa_sm[15]" at loadStoreMultiple.v(57) File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/loadStoreMultiple.v Line: 57
-Info (12128): Elaborating entity "data_memory" for hierarchy "data_memory:dmem" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 443
+Info (12128): Elaborating entity "data_memory" for hierarchy "data_memory:dmem" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 446
 Warning (10855): Verilog HDL warning at dataMem.v(17): initial value for variable ram should be constant File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/dataMem.v Line: 17
 Warning (10027): Verilog HDL or VHDL warning at the dataMem.v(35): index expression is not wide enough to address all of the elements in the array File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/dataMem.v Line: 35
-Info (12128): Elaborating entity "MEM2WB_Pipline_Reg" for hierarchy "MEM2WB_Pipline_Reg:mem_wb_pipeline_reg" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 463
+Info (12128): Elaborating entity "MEM2WB_Pipline_Reg" for hierarchy "MEM2WB_Pipline_Reg:mem_wb_pipeline_reg" File: E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/iitb-risc/topModule.v Line: 466
 Warning (12241): 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Info (144001): Generated suppressed messages file E:/Semester_8/EE739/project/EE739-6stage-IITB_RISC/QuartusRuns/output_files/pipelined_processor.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
@@ -816,11 +822,11 @@ Warning (21074): Design contains 2 input pin(s) that do not drive logic
 Info (21057): Implemented 2 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 0 output pins
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 38 warnings
-    Info: Peak virtual memory: 5259 megabytes
-    Info: Processing ended: Sun Apr 10 15:37:47 2022
-    Info: Elapsed time: 00:01:30
-    Info: Total CPU time (on all processors): 00:00:58
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 42 warnings
+    Info: Peak virtual memory: 4979 megabytes
+    Info: Processing ended: Sun Apr 10 16:27:37 2022
+    Info: Elapsed time: 00:00:44
+    Info: Total CPU time (on all processors): 00:00:40
 
 
 +------------------------------------------+

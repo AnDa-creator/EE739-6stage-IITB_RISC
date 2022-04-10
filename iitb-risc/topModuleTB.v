@@ -9,11 +9,14 @@ pipelined_processor uut ( clk, reset );
 always #10 clk = ~clk;
 
 initial begin 
- clk = 0;
- reset = 1'b1;
+    $dumpvars();
+    clk = 0;
+    reset = 1'b1;
  
- #20
- reset = 1'b0;
+    #20
+    reset = 1'b0;
+
+   #700 $finish;  
  end
  
 endmodule

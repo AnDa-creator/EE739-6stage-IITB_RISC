@@ -15,3 +15,4 @@ Stage23_ID2RR.v
 Stage34_RR2EX.v
 Stage45_EX2MM.v
 Stage56_MM2WB.v
+topModuleTB.v

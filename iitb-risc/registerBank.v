@@ -49,7 +49,7 @@ module register_bank
 	always @(posedge clk) begin 
 	    if (reset) begin 
             for (i=0; i<7 ; i=i+1) begin
-                registerFile[i] = i; // This initialisation would be 0 in the final run...
+                registerFile[i] = 0; // This initialisation would be 0 in the final run...
             end
             registerFile[7] = 0; // pc starts @ loc 0
         end
