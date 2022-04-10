@@ -2,7 +2,7 @@ module pipelined_processor (input clk, reset);
 
  // ******************************************** signals for fetch stage + if-id pipeline ************************************************
  
-    wire [15:0] pc_out, pc_next, pc_from_if_id, pc_next_from_if_id, pc_from_id_rr, pc_next_from_id_rr;
+    wire [15:0] pc_out, pc_next, pc_from_if_id, pc_next_from_if_id, pc_from_id_rr;
     wire [15:0] instruction , ir_from_if_id, ir_from_id_rr; 
     wire  if_id_reg_reset;
     wire nop_select_control;
@@ -28,7 +28,6 @@ module pipelined_processor (input clk, reset);
 	wire rr_wr_en_at_id_resolved;
 	wire mem_wr_en_at_id_resolved;		
 	reg [1:0] pc_control_from_id = 2'b00;
-	reg [15:0] pc_next_from_id, pc_next_from_rr; 
 
  // ********************************************** signals for ID-EX pipeline register ************************************************
     wire [15:0] pc_out_from_id_rr, pc_next_from_id_rr, pc_out_from_rr_ex, pc_next_from_rr_ex;
@@ -141,7 +140,7 @@ module pipelined_processor (input clk, reset);
 												 .pc_select(pc_select));
 												 
 	
-	mux_41 #(.IN_WIDTH(16), .OUT_WIDTH(16)) pc_elect_mux (.A(pc_next), .B(pc_next_from_id), .C(pc_next_from_ex), .D(16'd0), 
+	mux_41 #(.IN_WIDTH(16), .OUT_WIDTH(16)) pc_elect_mux (.A(pc_next), .B(pc_next_from_id_rr), .C(pc_next_from_ex), .D(16'd0), 
 									.sel(pc_select), .O(pc_to_predictor_mux)); 
 									
 									
@@ -150,7 +149,7 @@ module pipelined_processor (input clk, reset);
 	
 	
 	branch_history_table bht_lut ( .clk(clk), .pcAddressforMatch(pc_out), .pc_from_ex(pc_out_from_rr_ex), .pc_from_id(pc_from_if_id), 
-								   .bta_from_ex(pc_next_from_ex), .bta_from_id(pc_next_from_id), .opcode_from_ex( ir_out_from_rr_ex[15:12]), 
+								   .bta_from_ex(pc_next_from_ex), .bta_from_id(pc_next_from_id_rr), .opcode_from_ex( ir_out_from_rr_ex[15:12]), 
 								   .opcode_from_id(ir_from_if_id[15:12]), .taken_from_ex(taken_from_ex), .branchTargetAddr(BTA_PC_BHT), 
 								   .match(match), .history_bit(history_bit) ); 
 	
@@ -200,12 +199,12 @@ module pipelined_processor (input clk, reset);
       if ( ( ir_from_if_id[15:12] == JAL ) && ( spec_taken_at_if_out == 0 ) ) begin 
 	     nop_select_for_if_from_id = 1'b1;
 		 pc_control_from_id = 2'b01;
-		 pc_next_from_id = pc_from_if_id + {{7{ir_from_if_id[8]}}, ir_from_if_id[8:0]} ;
+		 pc_next_from_id_rr = pc_from_if_id + {{7{ir_from_if_id[8]}}, ir_from_if_id[8:0]} ;
 		end
 	  else begin  
 	     nop_select_for_if_from_id = 1'b0;
 		 pc_control_from_id = 2'b00;
-		 pc_next_from_id = 16'd0;
+		 pc_next_from_id_rr = 16'd0;
 	  end
 	end
 	// ************************************************** END OF JAL @ ID STAGE ***********************************************************		
