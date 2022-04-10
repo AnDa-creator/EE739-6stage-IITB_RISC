@@ -8,14 +8,14 @@
     wire [3:0] rom_addr = pc[3:0];
 
 /*
-    NOP
-    addi $r1, $r1, 7;
-    addi $r2, $r2, 5;
-    add  $r3, $r1, $r2;
-    mul  $r4, $r1, $r2;
-    addi $r5, $r5, 1;
-    sll $r6, $r1, $r5;
-    sll_test $r7, $r1, $r5;
+    ADDI $R0, $R0, 7;
+    ADDI $R1, $R1, 4;
+    Loop: 
+        ADD $R0, $R1, $R2;
+        NDU $R0, $R1, $R3;
+        ADDI $R1, $R1, 1;
+        JMP Loop;
+
  */
     reg [15:0] rom [16:0];
     integer i;
