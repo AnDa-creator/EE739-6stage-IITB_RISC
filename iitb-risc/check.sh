@@ -26,7 +26,7 @@ echo "Checking RR2EX_Stage.v"
 iverilog -o iitb_risc RR2EX_Stage.v
 
 echo "Checking EX2MM_Stage.v"
-iverilog -o iitb_risc RR2MM_Stage.v
+iverilog -o iitb_risc EX2MM_Stage.v
 
 echo "Checking MM2WB_Stage.v"
 iverilog -o iitb_risc MM2WB_Stage.v

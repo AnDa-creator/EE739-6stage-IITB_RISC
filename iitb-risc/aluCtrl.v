@@ -1,11 +1,11 @@
 // SubModule :: ALU Control
 module ALUControl
 (
-    output reg  [1:0] ALU_Control,
     input [3:0] ALUOp,
     input [1:0] Function,
     input carry_in,
-    input zero_in
+    input zero_in,
+    output reg  [1:0] ALU_Control
 );
 
     wire [5:0] ALUControlIn;

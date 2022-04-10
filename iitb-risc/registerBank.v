@@ -2,9 +2,9 @@
 module register_n
 #(parameter N = 16)
 (
-	output reg [N-1:0] out,
 	input  [N-1:0] in,
-    input clk, reset, enable
+    input clk, reset, enable,
+	output reg [N-1:0] out
 );
 
 	always @(posedge clk)
@@ -18,11 +18,11 @@ endmodule
 
 module register_bank
 (
-	output reg [15:0] readData1, readData2,
-	output reg [127:0] readData_R7_to_R0, // 112 bit long sequence read for SA and SM instructions {R7 R6 R5 R4 R3 R2 R1 R0}
 	input  [15:0] writeData, pcWriteData,
 	input  [2:0]  readAddress1, readAddress2, writeAddress,
-	input	writeEnable, clk, reset, pcWriteEnable
+	input	writeEnable, clk, reset, pcWriteEnable,
+	output reg [15:0] readData1, readData2,
+	output reg [127:0] readData_R7_to_R0 // 112 bit long sequence read for SA and SM instructions {R7 R6 R5 R4 R3 R2 R1 R0}
 );
 		
 	reg [15:0] registerFile [0:7];
