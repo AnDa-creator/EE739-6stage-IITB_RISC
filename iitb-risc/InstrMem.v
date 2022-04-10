@@ -18,7 +18,7 @@
     sll_test $r7, $r1, $r5;
  */
     reg [15:0] rom [16:0];
-
+    integer i;
     initial
     begin
         rom[0] = 16'b0000000000000000; // NOP
@@ -45,7 +45,7 @@
 		begin
 			if(reset== 1'b1)
 				begin
-					for(i=0;i<16;i=i+1) instruction_mem [i] =  16'b0111000000000000; // nop
+					for(i=0;i<16;i=i+1) rom[i] =  16'b0111000000000000; // nop
 				end
         end		
 endmodule

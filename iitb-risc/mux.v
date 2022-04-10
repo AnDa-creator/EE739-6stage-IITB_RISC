@@ -18,7 +18,7 @@ module mux_21
         endcase
 endmodule
 
-module mux_16_bit_4_input
+module mux_41
 #(
     parameter IN_WIDTH = 1,
     parameter OUT_WIDTH = 1

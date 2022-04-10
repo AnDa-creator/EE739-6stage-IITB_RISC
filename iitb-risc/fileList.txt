@@ -6,10 +6,12 @@ branchJumpCtrl.v
 ctrlUnit.v
 dataMem.v
 frwdingCntrl.v
+instrMem.v
+loadStoreMultiple.v
 mux.v
 registerBank.v
-IF2ID_Stage.v
-ID2RR_Stage.v
-RR2EX_Stage.v
-EX2MM_Stage.v
-MM2WB_Stage.v
+Stage12_IF2ID.v
+Stage23_ID2RR.v
+Stage34_RR2EX.v
+Stage45_EX2MM.v
+Stage56_MM2WB.v

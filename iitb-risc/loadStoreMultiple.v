@@ -1,9 +1,9 @@
-module Load_Store_Multi_Block
+module load_store_multi_block
 #(	
 	parameter LA = 4'b1110,
 	parameter SA = 4'b1111,
 	parameter LM = 4'b1100,
-	parameter SM = 4'b1101,
+	parameter SM = 4'b1101
 )
 (
 	input  [111:0] reg_data_form_id_112,

@@ -18,7 +18,7 @@ module pipelined_processor (input clk, reset);
     wire [1:0] RR_A3_Address_sel, EXE_ALU_Src2, EXE_ALU_Oper, Reg_D3_Sel;
     wire [2:0] A1_address, A2_address;
     wire [15:0] RF_D1, RF_D2;
-    wire [111:0] RF_D_R6_to_R0; // 112 bit long sequence containing contents of registers R6 to R0 for SA and SM
+    wire [127:0] RF_D_R7_to_R0; // 112 bit long sequence containing contents of registers R6 to R0 for SA and SM
     wire [9:0] control_signals;
 	 
  // ********************************************** signals for branch and jump in ID stage ***************************************************************	 
@@ -142,8 +142,8 @@ module pipelined_processor (input clk, reset);
 												 .pc_select(pc_select));
 												 
 	
-	mux_16_bit_4_input pc_elect_mux (.ip0(pc_next), .ip1(pc_next_from_id), .ip2(pc_next_from_ex), .ip3(16'd0), 
-									.select(pc_select), .out(pc_to_predictor_mux)); 
+	mux_41 #(.IN_WIDTH(16), .OUT_WIDTH(16)) pc_elect_mux (.A(pc_next), .B(pc_next_from_id), .C(pc_next_from_ex), .D(16'd0), 
+									.sel(pc_select), .O(pc_to_predictor_mux)); 
 									
 									
  // ********************************************************* BRANCH PREDICTION ****************************************************************
@@ -158,7 +158,7 @@ module pipelined_processor (input clk, reset);
 	assign branch_spec_taken_if = match && history_bit;
 	
 	// branch predictor mux 
-	mux_21  #(.IN_WIDTH(16), .OUT_WIDTH(16)) predictor_mux (.ip0(pc_to_predictor_mux), .ip1(BTA_PC_BHT), .select( branch_spec_taken_if ), .out(pc_current));
+	mux_21  #(.IN_WIDTH(16), .OUT_WIDTH(16)) predictor_mux (.A(pc_to_predictor_mux), .B(BTA_PC_BHT), .sel( branch_spec_taken_if ), .O(pc_current));
 			
 	
  // ********************************************************* IF-ID PIPELINE REG ****************************************************************
@@ -179,7 +179,7 @@ module pipelined_processor (input clk, reset);
      // CONTROL DECODER
 	 control_decoder id_controller ( .opcode(ir_from_if_id[15:12]), .ir_lsb_2(ir_from_if_id[1:0]), .RR_A1_Address_sel(RR_A1_Address_sel), 
 										.RR_A2_Address_sel(RR_A2_Address_sel), .RR_A3_Address_sel(RR_A3_Address_sel), .RR_Wr_En(RR_Wr_En), 
-										.EXE_ALU_Src2(EXE_ALU_Src2), .EXE_ALU_Oper(EXE_ALU_Oper), .Reg_D3_Sel(Reg_D3_Sel), .MEM_Wr_En(MEM_Wr_En),
+										.EXE_ALU_Src(EXE_ALU_Src2), .EXE_ALU_Oper(EXE_ALU_Oper), .Reg_D3_Sel(Reg_D3_Sel), .MEM_Wr_En(MEM_Wr_En),
  										 .pc_data_select(seperate_control_for_pc_select) );
 										
 	//Control_In format {RR_A3_Address_sel, RR_Wr_En, EXE_ALU_Src2, EXE_ALU_Oper, Reg_D3_Sel, MEM_Wr_En} total 10 bits									
@@ -191,9 +191,9 @@ module pipelined_processor (input clk, reset);
 	 
 	 
 	 // register bank
-	 register_bank  register_file ( .clk(clk), .reset(reset), .readAdd1(A1_address), .readAdd2(A2_address), .writeAdd(rd_addr_at_wb)
-									,.writeData(rd_data_at_wb),.writeEnable(reg_wr_en_at_wb), .readData1(RF_D1), .readData2(RF_D2),
-									.readData_R6_to_R0(RF_D_R6_to_R0), .r7writeData(pc_current), .r7wrEnable(pc_enable) ); 
+	 register_bank  register_file ( .clk(clk), .reset(reset), .readAddress1(A1_address), .readAddress2(A2_address), .writeAddress(rd_addr_at_wb)
+									,.writeData(rd_data_at_wb), .writeEnable(reg_wr_en_at_wb), .readData1(RF_D1), .readData2(RF_D2),
+									.readData_R7_to_R0(RF_D_R7_to_R0), .pcWriteData(pc_current), .pcWriteEnable(pc_enable) ); 
  	
 	// ************************************************** JAL @ ID STAGE ***********************************************************		
 	// JAL 
@@ -219,7 +219,7 @@ module pipelined_processor (input clk, reset);
 	// ***************************************************** ID-EX PIPELINE REG ********************************************************************	
 	assign id_ex_reg_reset = reset;
 	assign id_ex_pipe_rg_en = hazard_signal[2] & load_store_multi_freeze;
-	ID2RR_Pipline_Reg id_ex_pipe_reg (.clk(clk), .rst(id_ex_reg_reset), .enable(id_ex_pipe_rg_en), .PC_In(pc_from_if_id),.PC_NEXT_IN(pc_next_from_if_id),
+	RR2EX_Pipline_Reg rr_ex_pipe_reg (.clk(clk), .rst(id_ex_reg_reset), .enable(id_ex_pipe_rg_en), .PC_In(pc_from_if_id),.PC_NEXT_IN(pc_next_from_if_id),
 								.Control_In(control_signals), .RF_A1_In(A1_address), .RF_A2_In(A2_address), .RF_A3_From_WB_In(rd_addr_at_wb), 
 								.RF_D3_From_WB_In(rd_data_at_wb), .RR_Write_En_In(reg_wr_en_at_wb), .RF_D1_In(RF_D1), .RF_D2_In(RF_D2), 
 								.Instr_In(ir_from_if_id), .pc_data_select(seperate_control_for_pc_select), .Spec_Taken_In(spec_taken_at_if_out), 
@@ -333,20 +333,20 @@ module pipelined_processor (input clk, reset);
 									.sel(control_sig_out_from_id_ex[6:5]), .O(alu_src_B));	 
 	 
 	 // alu 	  
-	  alu alu_execute ( .in1(alu_src_A), .in2(alu_src_B), .operation(alu_control_redefined), .out(alu_out), .zero(zero_flag_in),
+    alu alu_execute ( .in1(alu_src_A), .in2(alu_src_B), .operation(alu_control_redefined), .out(alu_out), .zero(zero_flag_in),
 							.carry(carry_flag_in));
 	 
 	 
 	 // rf_d3 address selector mux
-	 mux_3_bit_4_input rf_d3_addr_select ( .ip0(ir_out_from_id_ex[5:3]), .ip1(ir_out_from_id_ex[8:6]), .ip2(ir_out_from_id_ex[11:9]), .ip3(3'd0), 
-											.select(control_sig_out_from_id_ex[9:8]), .out(rf_d3_addr_at_ex));
+	mux_41  #(.IN_WIDTH(3), .OUT_WIDTH(3)) rf_d3_addr_select ( .A(ir_out_from_id_ex[5:3]), .B(ir_out_from_id_ex[8:6]), .C(ir_out_from_id_ex[11:9]), .D(3'd0), 
+											.sel(control_sig_out_from_id_ex[9:8]), .O(rf_d3_addr_at_ex));
 	 // rf_d3 data selector mux ( lhi data / aluout data ) 
-	 assign lhi_data = {ir_out_from_id_ex[8:0],{7{1'b0}}};
-	 mux_16_bit_2_input rf_d3_data_select (.ip0(alu_out), .ip1(lhi_data), .select(control_sig_out_from_id_ex[2]), .out(rf_d3_data_temp));
+	assign lhi_data = {ir_out_from_id_ex[8:0],{7{1'b0}}};
+	mux_21  #(.IN_WIDTH(16), .OUT_WIDTH(16)) rf_d3_data_select (.A(alu_out), .B(lhi_data), .sel(control_sig_out_from_id_ex[2]), .O(rf_d3_data_temp));
 	 
 	 
 	 // pc data / prvs mux output data ( ALUOUT data/ LHI data) select mux
-	 mux_16_bit_2_input pc_data_select (.ip0(rf_d3_data_temp), .ip1(PC_next_from_id_ex), .select(data_select_control_for_pc_at_ex), 
+	mux_21  #(.IN_WIDTH(16), .OUT_WIDTH(16)) pc_data_select (.ip0(rf_d3_data_temp), .ip1(PC_next_from_id_ex), .select(data_select_control_for_pc_at_ex), 
 											.out(rf_d3_data_at_ex));
 	 
 	 
@@ -375,7 +375,7 @@ module pipelined_processor (input clk, reset);
  // ***********************************************************************************************************************************************		
 	 	//Section for LM SM LA SA
 		
-		Load_Store_Multi_Block la_sa_lm_sm_block (.clk(clk), .ir(ir_out_from_ex_mem), .rf_d2(mem_data_in), .reg_data_form_id_112(RF_D_R6_to_R0), 
+		load_store_multi_block la_sa_lm_sm_block (.clk(clk), .ir(ir_out_from_ex_mem), .rf_d2(mem_data_in), .reg_data_form_id_112(RF_D_R7_to_R0), 
 												 .reg_index_la_sa(la_sa_index), .reg_index_lm_sm(lm_sm_index), .freeze(load_store_multi_freeze), 
 												 .reg_or_mem_enable(reg_or_mem_en_load_store_multi), .mem_data_for_sa_sm(mem_data_in_load_store_multi),
 												 .nop_mux_select(nop_mux_select));
@@ -429,23 +429,23 @@ module pipelined_processor (input clk, reset);
 		
 		
 		//MUX to choose btw alu_out or RF_D1 which is starting address for LA SA LM SM
-		mux_16_bit_2_input mux_choosing_address (.ip0(mem_addr), .ip1(start_address_lm_sm_la_sa), .select(mux_select_addr_in_mem), .out(address_base));
+		mux_21 #(.IN_WIDTH(16), .OUT_WIDTH(16)) mux_choosing_address (.A(mem_addr), .B(start_address_lm_sm_la_sa), .sel(mux_select_addr_in_mem), .O(address_base));
 		// MUX to choose between la_sa_index or lm_sm_index
-		mux_3_bit_2_input mux_choosing_index (.ip0(la_sa_index), .ip1(lm_sm_index), .select(mux_select_index_in_mem), .out(address_offset) );	
+		mux_21 #(.IN_WIDTH(3), .OUT_WIDTH(3)) mux_choosing_index (.A(la_sa_index), .B(lm_sm_index), .sel(mux_select_index_in_mem), .O(address_offset));	
 		
 		assign addr_in_dm = address_base + address_offset;
 		
 		//MUX to choose btw mem_data_in_load_store_multi or rd_data_at_wb for enabling forwarding
-		mux_16_bit_2_input mux_forwardng_data (.ip0(rd_data_at_wb), .ip1(mem_data_in_load_store_multi), .select(mux_sel_data_for_in_mem), .out(data_in_dm));
+		mux_21 #(.IN_WIDTH(16), .OUT_WIDTH(16)) mux_forwardng_data (.A(rd_data_at_wb), .B(mem_data_in_load_store_multi), .sel(mux_sel_data_for_in_mem), .O(data_in_dm));
 		
 		//MUX to choose btw addr_in_dm or rd_addr_ex_mem for specifying which register to choose
-		mux_3_bit_2_input mux_choosing_rd_addr (.ip0(rd_addr_ex_mem), .ip1(la_sa_index), .select(mux_sel_rd_addr_in_mem), .out(rd_addr_chosen_from_mem));
+		mux_21 #(.IN_WIDTH(3), .OUT_WIDTH(3)) mux_choosing_rd_addr (.A(rd_addr_ex_mem), .B(la_sa_index), .sel(mux_sel_rd_addr_in_mem), .O(rd_addr_chosen_from_mem));
 	    
 		//data memory
 		data_memory  dmem ( .clk(clk), .reset(reset), .accessAddress(addr_in_dm), .dataIn(data_in_dm), 
 									.writeEnable(dm_wr_en), .dataOut(Memory_out));									
 		//MUX to choose btw alu_out or memory_data to update register_file
-		mux_16_bit_2_input reg_data_select (.ip0(rd_data_ex_mem), .ip1(Memory_out), .select(control_out_from_ex_mem[1]), .out(rd_out_at_mem));
+		mux_21 #(.IN_WIDTH(16), .OUT_WIDTH(16)) reg_data_select (.A(rd_data_ex_mem), .B(Memory_out), .sel(control_out_from_ex_mem[1]), .O(rd_out_at_mem));
 		
 		always @( * ) begin
 			if ( ir_out_from_ex_mem[15:12] == 4'b0100 && rd_out_at_mem == 16'd0 ) begin 
@@ -462,10 +462,10 @@ module pipelined_processor (input clk, reset);
 				
  //********************************************************* MEM-WB PIPELINE REG ****************************************************************** 
 
-		MEM2WB_Pipline_Reg mem_wb_pipeline_reg (.clk(clk), .rst(mem_wb_reg_reset), .enable(hazard_signal[0]), .Control_In(reg_wr_en_from_mem), 
-												.Rd_Addr_In_From_Mem(rd_addr_chosen_from_mem), .Rd_Data_In_From_Mem(rd_out_at_mem), 
-												 .Instr_In(ir_out_from_ex_mem), .Control_Out(reg_wr_en_at_wb), .Rd_Addr_Out_PR(rd_addr_at_wb), 
-												 .Rd_Data_Out_PR(rd_data_at_wb), .Instr_Out(ir_at_wb));				
+	MEM2WB_Pipline_Reg mem_wb_pipeline_reg (.clk(clk), .rst(mem_wb_reg_reset), .enable(hazard_signal[0]), .Control_In(reg_wr_en_from_mem), 
+									.Rd_Addr_In_From_Mem(rd_addr_chosen_from_mem), .Rd_Data_In_From_Mem(rd_out_at_mem), 
+									 .Instr_In(ir_out_from_ex_mem), .Control_Out(reg_wr_en_at_wb), .Rd_Addr_Out_PR(rd_addr_at_wb), 
+									 .Rd_Data_Out_PR(rd_data_at_wb), .Instr_Out(ir_at_wb));				
      
  // ***********************************************************************************************************************************************
  // ***********************************************************************************************************************************************
