@@ -23,9 +23,6 @@ module alu
             2'b01: result = ~(a & b);                 // Nand
             default: result = 0;                       // NOP
         endcase
-    end
-
-    always @(*) begin
         result = (alu_control == 2'b00) ? total_sum[15:0]: result;                       //result
         zero = (result == 16'd0) ? 1'b1: 1'b0;                                             //zero
         carry = (total_sum[16] == 1'b1) ? 1'b1: 1'b0;                                      //carry
