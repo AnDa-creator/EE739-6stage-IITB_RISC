@@ -2,8 +2,8 @@ module pipelined_processor (input clk, reset);
 
  // ******************************************** signals for fetch stage + if-id pipeline ************************************************
  
-    wire [15:0] pc_out, pc_next, pc_from_if_id, pc_next_from_if_id;
-    wire [15:0] instruction , ir_from_if_id; 
+    wire [15:0] pc_out, pc_next, pc_from_if_id, pc_next_from_if_id, pc_from_id_rr, pc_next_from_id_rr;
+    wire [15:0] instruction , ir_from_if_id, ir_from_id_rr; 
     wire  if_id_reg_reset;
     wire nop_select_control;
     wire [15:0] final_instrn_at_if;
@@ -28,18 +28,16 @@ module pipelined_processor (input clk, reset);
 	wire rr_wr_en_at_id_resolved;
 	wire mem_wr_en_at_id_resolved;		
 	reg [1:0] pc_control_from_id = 2'b00;
-	reg [15:0] pc_next_from_id; 
+	reg [15:0] pc_next_from_id, pc_next_from_rr; 
 
- // ********************************************** signals for RR-EX pipeline register ************************************************
-    wire id_ex_reg_reset;
-    wire [15:0] pc_out_from_id_ex, PC_next_from_id_ex;
-    wire [9:0] control_sig_out_from_id_ex;
-    wire [15:0] RF_D1_out_from_id_ex, RF_D2_out_from_id_ex, ir_out_from_id_ex;
+ // ********************************************** signals for ID-EX pipeline register ************************************************
+    wire [15:0] pc_out_from_id_rr, pc_next_from_id_rr, pc_out_from_rr_ex, pc_next_from_rr_ex;
+    wire [9:0] control_sig_out_from_id_rr, control_sig_out_from_rr_ex;
+    wire [15:0] RF_D1_out_from_rr_ex, RF_D2_out_from_rr_ex, ir_out_from_id_rr, ir_out_from_rr_ex;
     wire [2:0] rs1_addr_from_rr_ex, rs2_addr_from_rr_ex, rd_prev_addr_from_rr_ex;
     wire rf_wr_en_prev_from_rr_ex;
-    wire seperate_control_for_pc_select;
+    wire seperate_control_for_pc_select_at_rr, seperate_control_for_pc_select_at_ex;
     wire data_select_control_for_pc_at_ex;
-    wire id_ex_pipe_rg_en;
  
  // ********************************************** signals for EX stage ***************************************************************		 
     wire carry_flag_in, zero_flag_in;
@@ -118,6 +116,7 @@ module pipelined_processor (input clk, reset);
 	wire branch_spec_taken_if;
 	wire spec_taken_at_if_out;
 	wire spec_taken_at_id_out;
+	wire spec_taken_at_rr_out;
 	wire match;
 	
 
@@ -150,8 +149,8 @@ module pipelined_processor (input clk, reset);
 
 	
 	
-	branch_history_table bht_lut ( .clk(clk), .pcAddressforMatch(pc_out), .pc_from_ex(pc_out_from_id_ex), .pc_from_id(pc_from_if_id), 
-								   .bta_from_ex(pc_next_from_ex), .bta_from_id(pc_next_from_id), .opcode_from_ex( ir_out_from_id_ex[15:12]), 
+	branch_history_table bht_lut ( .clk(clk), .pcAddressforMatch(pc_out), .pc_from_ex(pc_out_from_rr_ex), .pc_from_id(pc_from_if_id), 
+								   .bta_from_ex(pc_next_from_ex), .bta_from_id(pc_next_from_id), .opcode_from_ex( ir_out_from_rr_ex[15:12]), 
 								   .opcode_from_id(ir_from_if_id[15:12]), .taken_from_ex(taken_from_ex), .branchTargetAddr(BTA_PC_BHT), 
 								   .match(match), .history_bit(history_bit) ); 
 	
@@ -219,10 +218,11 @@ module pipelined_processor (input clk, reset);
 	assign id_rr_reg_reset = reset;
     assign id_rr_pipe_rg_en = hazard_signal[2] & load_store_multi_freeze;
     ID2RR_Pipline_Reg id_rr_pipe_reg (.clk(clk), .rst(id_rr_reg_reset), .enable(id_rr_pipe_rg_en), .spec_taken_in(spec_taken_at_if_out), .pc_in(pc_from_if_id), 
-                                    .pc_next_in(pc_next_from_if_id), .instr_in(ir_from_if_id), .cntrl_in(control_signals), 
-                                    .pc_out(pc_out_from_id_ex), .pc_next_out(PC_next_from_id_ex), .instr_out(ir_out_from_id_ex), 
-                                    .spec_taken_out(spec_taken_at_id_out), .cntrl_out(control_sig_out_from_id_ex),
-                                    .pc_data_select(seperate_control_for_pc_select), .pc_data_select_out(data_select_control_for_pc_at_ex));
+                                    
+									.pc_next_in(pc_next_from_if_id), .instr_in(ir_from_if_id), .cntrl_in(control_signals), 
+                                    .pc_out(pc_out_from_id_rr), .pc_next_out(pc_next_from_id_rr), .instr_out(ir_from_id_rr), 
+                                    .spec_taken_out(spec_taken_at_id_out), .cntrl_out(control_sig_out_from_id_rr),
+                                    .pc_data_select(seperate_control_for_pc_select_at_rr), .pc_data_select_out(data_select_control_for_pc_at_rr));
 
 	// ***************************************************** RR-EX PIPELINE REG ********************************************************************	
 	assign rr_ex_reg_reset = reset;
@@ -230,12 +230,13 @@ module pipelined_processor (input clk, reset);
 	RR2EX_Pipline_Reg rr_ex_pipe_reg (.clk(clk), .rst(rr_ex_reg_reset), .enable(rr_ex_pipe_rg_en), .RF_A1_In(A1_address), .RF_A2_In(A2_address), .RF_A3_From_WB_In(rd_addr_at_wb), 
 								.RF_D3_From_WB_In(rd_data_at_wb), .RR_Write_En_In(reg_wr_en_at_wb), .RF_D1_In(RF_D1), .RF_D2_In(RF_D2), .RF_A1_Out(rs1_addr_from_rr_ex), 
 								.RF_A2_Out(rs2_addr_from_rr_ex), .RF_A3_From_WB_Out(rd_prev_addr_from_rr_ex), .RF_D3_From_WB_Out(rd_prev_data_from_rr_ex), 
-                                .RR_Write_En_Out(rf_wr_en_prev_from_rr_ex), .RF_D1_Out(RF_D1_out_from_id_ex), .RF_D2_Out(RF_D2_out_from_id_ex),
-								 .spec_taken_in(spec_taken_at_if_out), .pc_in(pc_from_if_id), 
-                                    .pc_next_in(pc_next_from_if_id), .instr_in(ir_from_if_id), .cntrl_in(control_signals), 
-                                    .pc_out(pc_out_from_id_ex), .pc_next_out(PC_next_from_id_ex), .instr_out(ir_out_from_id_ex), 
-                                    .spec_taken_out(spec_taken_at_id_out), .cntrl_out(control_sig_out_from_id_ex),
-                                    .pc_data_select(seperate_control_for_pc_select), .pc_data_select_out(data_select_control_for_pc_at_ex)
+                                .RR_Write_En_Out(rf_wr_en_prev_from_rr_ex), .RF_D1_Out(RF_D1_out_from_rr_ex), .RF_D2_Out(RF_D2_out_from_rr_ex),
+								
+								.spec_taken_in(spec_taken_at_id_out), .pc_in(pc_from_id_rr), 
+                                .pc_next_in(pc_next_from_id_rr), .instr_in(ir_from_id_rr), .cntrl_in(control_sig_out_from_id_rr), 
+                                .pc_out(pc_out_from_rr_ex), .pc_next_out(pc_next_from_rr_ex), .instr_out(ir_out_from_rr_ex), 
+                                .spec_taken_out(spec_taken_at_rr_out), .cntrl_out(control_sig_out_from_rr_ex),
+                                .pc_data_select(seperate_control_for_pc_select_ex), .pc_data_select_out(data_select_control_for_pc_at_ex)
 								);
 										
  // ***********************************************************************************************************************************************
@@ -244,8 +245,8 @@ module pipelined_processor (input clk, reset);
  // ***********************************************************************************************************************************************
  // ***********************************************************************************************************************************************		
    	 
-	 alu_ctrl alu_control (.instr(ir_out_from_id_ex), .aluCtrlOp(control_sig_out_from_id_ex[4:3]), .carry_in(carry_flag_out), 
-								 .zero_in(zero_flag_out), .reg_write_enable_in(control_sig_out_from_id_ex[7]), .carry_write_en(carry_write_en), 
+	 alu_ctrl alu_control (.instr(ir_out_from_rr_ex), .aluCtrlOp(control_sig_out_from_rr_ex[4:3]), .carry_in(carry_flag_out), 
+								 .zero_in(zero_flag_out), .reg_write_enable_in(control_sig_out_from_rr_ex[7]), .carry_write_en(carry_write_en), 
 								 .zero_write_en(zero_write_en), .alu_operation_out(alu_control_redefined), .reg_write_enable_out(reg_write_en_redefined));
 	 
 	// code control register 
@@ -273,11 +274,11 @@ module pipelined_processor (input clk, reset);
 	// ************************************************** BRANCH + JLR + JRI @ EX STAGE ***********************************************************	
 	
 	// BRANCH + JLR + JRI 	
-	 assign pc_branch =  pc_out_from_id_ex + {{10{ir_out_from_id_ex[5]}}, ir_out_from_id_ex[5:0]} ;
+	 assign pc_branch =  pc_out_from_rr_ex + {{10{ir_out_from_rr_ex[5]}}, ir_out_from_rr_ex[5:0]} ;
 	 
 	 assign equals = (alu_src_A == rf_d2_forwarded);
 	 
-	 assign taken_from_ex = equals && (ir_out_from_id_ex[15:12] == branch);
+	 assign taken_from_ex = equals && (ir_out_from_rr_ex[15:12] == branch);
 	 
 	 
 	 /* 									prediction   	actual
@@ -288,14 +289,14 @@ module pipelined_processor (input clk, reset);
 	*/
 	
 	always @ (*) begin 
-	 if (ir_out_from_id_ex[15:12] == branch) begin
-		if ((equals == 0) && (spec_taken_at_id_out == 1)) begin // case1 prediction - > T ; actual -> NT 
+	 if (ir_out_from_rr_ex[15:12] == branch) begin
+		if ((equals == 0) && (spec_taken_at_rr_out == 1)) begin // case1 prediction - > T ; actual -> NT 
 			nop_select_for_if_from_ex = 1;
 			reg_and_mem_wr_disable_for_id_from_ex = 1;
 			pc_control_from_ex = 2'b10; // for branch
-			pc_next_from_ex = ( pc_out_from_id_ex + 16'd1 );
+			pc_next_from_ex = ( pc_out_from_rr_ex + 16'd1 );
 		end
-		else if ((equals == 1) && (spec_taken_at_id_out == 0)) begin // case4 prediction - > NT ; actual -> T 
+		else if ((equals == 1) && (spec_taken_at_rr_out == 0)) begin // case4 prediction - > NT ; actual -> T 
 			nop_select_for_if_from_ex = 1;
 			reg_and_mem_wr_disable_for_id_from_ex = 1;
 			pc_control_from_ex = 2'b10; // for branch
@@ -308,17 +309,17 @@ module pipelined_processor (input clk, reset);
 			pc_next_from_ex = 16'd0;
 		end
 	 end
-	 else if (ir_out_from_id_ex[15:12] == jlr) begin
+	 else if (ir_out_from_rr_ex[15:12] == jlr) begin
 	    nop_select_for_if_from_ex = 1;
 		reg_and_mem_wr_disable_for_id_from_ex = 1;
 		pc_control_from_ex = 2'b10; // for jlr
 		pc_next_from_ex = rf_d2_forwarded;
 	  end
-	  else if (ir_out_from_id_ex[15:12] == jri) begin
+	  else if (ir_out_from_rr_ex[15:12] == jri) begin
 	    nop_select_for_if_from_ex = 1;
 		reg_and_mem_wr_disable_for_id_from_ex = 1;
 		pc_control_from_ex = 2'b10; // for jri
-		pc_next_from_ex = alu_src_A + {{7{ir_out_from_id_ex[8]}}, ir_out_from_id_ex[8:0]} ;
+		pc_next_from_ex = alu_src_A + {{7{ir_out_from_rr_ex[8]}}, ir_out_from_rr_ex[8:0]} ;
 	  end
 	 else begin  
 		nop_select_for_if_from_ex = 0;
@@ -330,16 +331,16 @@ module pipelined_processor (input clk, reset);
 	// ************************************************** END OF BRANCH + JLR + JRI @ EX STAGE ***************************************************	 
 	 
 	 // forward unit rs1 rs2 mux 
-	mux_41 #(.IN_WIDTH(16), .OUT_WIDTH(16)) rs1_fwd_mux(.A(RF_D1_out_from_id_ex), .B(rd_data_ex_mem), .C(rd_data_at_wb), .D(rd_prev_data_from_rr_ex), 
+	mux_41 #(.IN_WIDTH(16), .OUT_WIDTH(16)) rs1_fwd_mux(.A(RF_D1_out_from_rr_ex), .B(rd_data_ex_mem), .C(rd_data_at_wb), .D(rd_prev_data_from_rr_ex), 
 									.sel(rs1_frwd_control), .O(alu_src_A)); 
-	mux_41 #(.IN_WIDTH(16), .OUT_WIDTH(16)) rs2_fwd_mux(.A(RF_D2_out_from_id_ex), .B(rd_data_ex_mem), .C(rd_data_at_wb), .D(rd_prev_data_from_rr_ex), 
+	mux_41 #(.IN_WIDTH(16), .OUT_WIDTH(16)) rs2_fwd_mux(.A(RF_D2_out_from_rr_ex), .B(rd_data_ex_mem), .C(rd_data_at_wb), .D(rd_prev_data_from_rr_ex), 
 									.sel(rs2_frwd_control), .O(rf_d2_forwarded));
 	 
 	 // alu srcb select
-	  assign imm16 = { {10{ir_out_from_id_ex[5]}}, ir_out_from_id_ex[5:0]};
+	  assign imm16 = { {10{ir_out_from_rr_ex[5]}}, ir_out_from_rr_ex[5:0]};
 	  assign rf_d2_shift_left_1 = rf_d2_forwarded << 1;
 	mux_41 #(.IN_WIDTH(16), .OUT_WIDTH(16))  alu_srcb_mux (.A(rf_d2_forwarded), .B(imm16), .C(rf_d2_shift_left_1), .D(16'd0), 
-									.sel(control_sig_out_from_id_ex[6:5]), .O(alu_src_B));	 
+									.sel(control_sig_out_from_rr_ex[6:5]), .O(alu_src_B));	 
 	 
 	 // alu 	  
     alu alu_execute (.a(alu_src_A), .b(alu_src_B), .alu_control(alu_control_redefined), .result(alu_out), .zero(zero_flag_in),
@@ -347,25 +348,25 @@ module pipelined_processor (input clk, reset);
 	 
 	 
 	 // rf_d3 address selector mux
-	mux_41  #(.IN_WIDTH(3), .OUT_WIDTH(3)) rf_d3_addr_select (.A(ir_out_from_id_ex[5:3]), .B(ir_out_from_id_ex[8:6]), .C(ir_out_from_id_ex[11:9]), .D(3'd0), 
-											.sel(control_sig_out_from_id_ex[9:8]), .O(rf_d3_addr_at_ex));
+	mux_41  #(.IN_WIDTH(3), .OUT_WIDTH(3)) rf_d3_addr_select (.A(ir_out_from_rr_ex[5:3]), .B(ir_out_from_rr_ex[8:6]), .C(ir_out_from_rr_ex[11:9]), .D(3'd0), 
+											.sel(control_sig_out_from_rr_ex[9:8]), .O(rf_d3_addr_at_ex));
 	 // rf_d3 data selector mux ( lhi data / aluout data ) 
-	assign lhi_data = {ir_out_from_id_ex[8:0], {7{1'b0}}};
-	mux_21  #(.IN_WIDTH(16), .OUT_WIDTH(16)) rf_d3_data_select (.A(alu_out), .B(lhi_data), .sel(control_sig_out_from_id_ex[2]), .O(rf_d3_data_temp));
+	assign lhi_data = {ir_out_from_rr_ex[8:0], {7{1'b0}}};
+	mux_21  #(.IN_WIDTH(16), .OUT_WIDTH(16)) rf_d3_data_select (.A(alu_out), .B(lhi_data), .sel(control_sig_out_from_rr_ex[2]), .O(rf_d3_data_temp));
 	 
 	 
 	 // pc data / prvs mux output data ( ALUOUT data/ LHI data) select mux
-	mux_21  #(.IN_WIDTH(16), .OUT_WIDTH(16)) pc_data_select (.A(rf_d3_data_temp), .B(PC_next_from_id_ex), 
+	mux_21  #(.IN_WIDTH(16), .OUT_WIDTH(16)) pc_data_select (.A(rf_d3_data_temp), .B(pc_next_from_rr_ex), 
                                             .sel(data_select_control_for_pc_at_ex), .O(rf_d3_data_at_ex));
 	 
 	 
-	 // control_sig_out_from_id_ex[8] this selects between memory and alu 
-	 assign new_control_signals_at_ex = {reg_wr_en_from_ex_nop_out, control_sig_out_from_id_ex[1] , mem_wr_en_from_ex_nop_out};
+	 // control_sig_out_from_rr_ex[8] this selects between memory and alu 
+	 assign new_control_signals_at_ex = {reg_wr_en_from_ex_nop_out, control_sig_out_from_rr_ex[1] , mem_wr_en_from_ex_nop_out};
 	 
 	 // NOP MUX for LM SM occuring in consecutive cycles
-	 assign ir_out_from_ex_nop_out = (nop_mux_select || nop_control_from_hazard) ? 16'b0111000000000000 : ir_out_from_id_ex;
+	 assign ir_out_from_ex_nop_out = (nop_mux_select || nop_control_from_hazard) ? 16'b0111000000000000 : ir_out_from_rr_ex;
 	 assign reg_wr_en_from_ex_nop_out = (nop_mux_select || nop_control_from_hazard) ? 1'b0 : reg_write_en_redefined;
-	 assign mem_wr_en_from_ex_nop_out = (nop_mux_select || nop_control_from_hazard) ? 1'b0 : control_sig_out_from_id_ex[0];
+	 assign mem_wr_en_from_ex_nop_out = (nop_mux_select || nop_control_from_hazard) ? 1'b0 : control_sig_out_from_rr_ex[0];
 	 
 	// ***************************************************************** EX-MEM PIPELINE REG ********************************************************	
 	assign ex_mem_enable = hazard_signal[1] & load_store_multi_freeze;	
@@ -482,7 +483,7 @@ module pipelined_processor (input clk, reset);
    
     /* always @( posedge clk ) begin
 	  counter = 0;
-      if ((ir_out_from_id_ex[15:12] == 4'b0100) && ((A1_address == rf_d3_addr_at_ex ) || (A2_address == rf_d3_addr_at_ex ))) 
+      if ((ir_out_from_rr_ex[15:12] == 4'b0100) && ((A1_address == rf_d3_addr_at_ex ) || (A2_address == rf_d3_addr_at_ex ))) 
 	  begin
 	    counter <= counter + 1;		
 		if ( counter == 1 )  
@@ -496,7 +497,7 @@ module pipelined_processor (input clk, reset);
 	
 	always @( posedge clk ) begin
 	  counter <= 0;
-      if ((ir_out_from_id_ex[15:12] == 4'b0100) && ((A1_address == rf_d3_addr_at_ex ) || (A2_address == rf_d3_addr_at_ex )) || (ir_out_from_id_ex[15:12] ==  4'b1110 ) || (ir_out_from_id_ex[15:12] ==  4'b1111 ) || (ir_out_from_id_ex[15:12] ==  4'b1100 ) || (ir_out_from_id_ex[15:12] ==  4'b1101 )) 
+      if ((ir_out_from_rr_ex[15:12] == 4'b0100) && ((A1_address == rf_d3_addr_at_ex ) || (A2_address == rf_d3_addr_at_ex )) || (ir_out_from_rr_ex[15:12] ==  4'b1110 ) || (ir_out_from_rr_ex[15:12] ==  4'b1111 ) || (ir_out_from_rr_ex[15:12] ==  4'b1100 ) || (ir_out_from_rr_ex[15:12] ==  4'b1101 )) 
 	  begin
 	    counter <= counter + 1;		
 		if (counter == 1)  
@@ -511,7 +512,7 @@ module pipelined_processor (input clk, reset);
       if (counter == 1) begin
 		hazard_signal = 5'b11111;
 	  end
-	  else if (((ir_out_from_id_ex[15:12] == 4'b0100) && ((A1_address == rf_d3_addr_at_ex) || (A2_address == rf_d3_addr_at_ex))) || (ir_out_from_id_ex[15:12] ==  4'b1110) || (ir_out_from_id_ex[15:12] ==  4'b1111) || (ir_out_from_id_ex[15:12] ==  4'b1100) || (ir_out_from_id_ex[15:12] ==  4'b1101)) begin
+	  else if (((ir_out_from_rr_ex[15:12] == 4'b0100) && ((A1_address == rf_d3_addr_at_ex) || (A2_address == rf_d3_addr_at_ex))) || (ir_out_from_rr_ex[15:12] ==  4'b1110) || (ir_out_from_rr_ex[15:12] ==  4'b1111) || (ir_out_from_rr_ex[15:12] ==  4'b1100) || (ir_out_from_rr_ex[15:12] ==  4'b1101)) begin
 		hazard_signal = 5'b00011;
 	  end
 	  else begin
@@ -520,7 +521,7 @@ module pipelined_processor (input clk, reset);
     end
 	
 	always @ (posedge clk) begin
-		if (((ir_out_from_id_ex[15:12] == 4'b0100) && ((A1_address == rf_d3_addr_at_ex) || (A2_address == rf_d3_addr_at_ex))) && (hazard_signal == 5'b00011))
+		if (((ir_out_from_rr_ex[15:12] == 4'b0100) && ((A1_address == rf_d3_addr_at_ex) || (A2_address == rf_d3_addr_at_ex))) && (hazard_signal == 5'b00011))
 			nop_control_from_hazard = 1'b1;
 		else 
 			nop_control_from_hazard = 1'b0;
