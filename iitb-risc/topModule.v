@@ -235,9 +235,9 @@ module pipelined_processor (input clk, reset);
  // ***********************************************************************************************************************************************
  // ***********************************************************************************************************************************************		
    	 
-	 alu_ctrl alu_control (.ir(ir_out_from_id_ex), .alu_operation_from_controller(control_sig_out_from_id_ex[4:3]), .carry_in(carry_flag_out), 
+	 alu_ctrl alu_control (.instr(ir_out_from_id_ex), .aluCtrlOp(control_sig_out_from_id_ex[4:3]), .carry_in(carry_flag_out), 
 								 .zero_in(zero_flag_out), .reg_write_enable_in(control_sig_out_from_id_ex[7]), .carry_write_en(carry_write_en), 
-								 .zero_write_en(zero_write_en), .alu_operation_out(alu_control_redefined), .reg_write_enable_out(reg_write_en_redefined) );
+								 .zero_write_en(zero_write_en), .alu_operation_out(alu_control_redefined), .reg_write_enable_out(reg_write_en_redefined));
 	 
 	// code control register 
      register_n #(.N(1)) carry_register (.clk(clk), .reset(reset), .enable(carry_write_en), .in(carry_flag_in), .out(carry_flag_out) ); 
@@ -333,7 +333,7 @@ module pipelined_processor (input clk, reset);
 									.sel(control_sig_out_from_id_ex[6:5]), .O(alu_src_B));	 
 	 
 	 // alu 	  
-    alu alu_execute ( .in1(alu_src_A), .in2(alu_src_B), .operation(alu_control_redefined), .out(alu_out), .zero(zero_flag_in),
+    alu alu_execute ( .a(alu_src_A), .b(alu_src_B), .alu_control(alu_control_redefined), .result(alu_out), .zero(zero_flag_in),
 							.carry(carry_flag_in));
 	 
 	 
@@ -346,8 +346,8 @@ module pipelined_processor (input clk, reset);
 	 
 	 
 	 // pc data / prvs mux output data ( ALUOUT data/ LHI data) select mux
-	mux_21  #(.IN_WIDTH(16), .OUT_WIDTH(16)) pc_data_select (.ip0(rf_d3_data_temp), .ip1(PC_next_from_id_ex), .select(data_select_control_for_pc_at_ex), 
-											.out(rf_d3_data_at_ex));
+	mux_21  #(.IN_WIDTH(16), .OUT_WIDTH(16)) pc_data_select (.A(rf_d3_data_temp), .B(PC_next_from_id_ex), 
+                                            .sel(data_select_control_for_pc_at_ex), .O(rf_d3_data_at_ex));
 	 
 	 
 	 // control_sig_out_from_id_ex[8] this selects between memory and alu 
@@ -375,7 +375,7 @@ module pipelined_processor (input clk, reset);
  // ***********************************************************************************************************************************************		
 	 	//Section for LM SM LA SA
 		
-		load_store_multi_block la_sa_lm_sm_block (.clk(clk), .ir(ir_out_from_ex_mem), .rf_d2(mem_data_in), .reg_data_form_id_112(RF_D_R7_to_R0), 
+		load_store_multi_block la_sa_lm_sm_block (.clk(clk), .ir(ir_out_from_ex_mem), .rf_d2(mem_data_in), .reg_data_form_id_128(RF_D_R7_to_R0), 
 												 .reg_index_la_sa(la_sa_index), .reg_index_lm_sm(lm_sm_index), .freeze(load_store_multi_freeze), 
 												 .reg_or_mem_enable(reg_or_mem_en_load_store_multi), .mem_data_for_sa_sm(mem_data_in_load_store_multi),
 												 .nop_mux_select(nop_mux_select));
@@ -419,15 +419,12 @@ module pipelined_processor (input clk, reset);
 			end
 			else begin
 				mux_sel_reg_wr_en = 0;
-			end
-			
-			 
+			end	 
 		end
 		
-		assign dm_wr_en = mux_sel_dm_wr_en ? (control_out_from_ex_mem[0] & reg_or_mem_en_load_store_multi) : control_out_from_ex_mem[0]; 
-		assign reg_wr_en_from_mem = mux_sel_reg_wr_en ? (control_out_from_ex_mem[2] & reg_or_mem_en_load_store_multi) : control_out_from_ex_mem[2]; 
-		
-		
+		assign dm_wr_en = mux_sel_dm_wr_en ? (control_out_from_ex_mem[0] & reg_or_mem_en_load_store_multi) : control_out_from_ex_mem[0];
+		assign reg_wr_en_from_mem = mux_sel_reg_wr_en ? (control_out_from_ex_mem[2] & reg_or_mem_en_load_store_multi) : control_out_from_ex_mem[2];	
+
 		//MUX to choose btw alu_out or RF_D1 which is starting address for LA SA LM SM
 		mux_21 #(.IN_WIDTH(16), .OUT_WIDTH(16)) mux_choosing_address (.A(mem_addr), .B(start_address_lm_sm_la_sa), .sel(mux_select_addr_in_mem), .O(address_base));
 		// MUX to choose between la_sa_index or lm_sm_index
@@ -442,22 +439,20 @@ module pipelined_processor (input clk, reset);
 		mux_21 #(.IN_WIDTH(3), .OUT_WIDTH(3)) mux_choosing_rd_addr (.A(rd_addr_ex_mem), .B(la_sa_index), .sel(mux_sel_rd_addr_in_mem), .O(rd_addr_chosen_from_mem));
 	    
 		//data memory
-		data_memory  dmem ( .clk(clk), .reset(reset), .accessAddress(addr_in_dm), .dataIn(data_in_dm), 
-									.writeEnable(dm_wr_en), .dataOut(Memory_out));									
+		data_memory  dmem (.clk(clk), .rst(reset), .mem_access_addr(addr_in_dm), .mem_write_data(data_in_dm), 
+									.mem_write_en(dm_wr_en), .mem_read_data(Memory_out));									
 		//MUX to choose btw alu_out or memory_data to update register_file
 		mux_21 #(.IN_WIDTH(16), .OUT_WIDTH(16)) reg_data_select (.A(rd_data_ex_mem), .B(Memory_out), .sel(control_out_from_ex_mem[1]), .O(rd_out_at_mem));
 		
-		always @( * ) begin
-			if ( ir_out_from_ex_mem[15:12] == 4'b0100 && rd_out_at_mem == 16'd0 ) begin 
-			 zero_wr_en_from_mem = 1;
-			 zero_flag_from_mem = 1;
+		always @(*) begin
+			if (ir_out_from_ex_mem[15:12] == 4'b0100 && rd_out_at_mem == 16'd0) begin 
+                zero_wr_en_from_mem = 1;
+                zero_flag_from_mem = 1;
 			end
 			else begin
-			 zero_wr_en_from_mem = 0;
-			 zero_flag_from_mem = 0;
-			end
-			
-			 
+                zero_wr_en_from_mem = 0;
+                zero_flag_from_mem = 0;
+			end	 
 		end
 				
  //********************************************************* MEM-WB PIPELINE REG ****************************************************************** 
