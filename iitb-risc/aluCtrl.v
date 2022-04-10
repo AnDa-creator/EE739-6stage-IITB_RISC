@@ -1,15 +1,18 @@
 // SubModule :: ALU Control
 module alu_ctrl
-(
-    input [3:0] ALUOp,
-    input [1:0] Function,
+(   
+    input [15:0] instr,
+    input [1:0] aluCtrlOp,
     input carry_in,
     input zero_in,
+    input reg_write_enable_in,
+    output reg carry_write_en, zero_write_en,
+	output reg reg_write_enable_out,
     output reg  [1:0] ALU_Control
 );
 
     wire [5:0] ALUControlIn;
-    assign ALUControlIn = {ALUOp,Function};
+    assign ALUControlIn = {instr[15:12],instr[1:0]};
 
     parameter ADD = 6'b000100;
     parameter ADC = 6'b000110;
@@ -23,15 +26,85 @@ module alu_ctrl
 
     always @(ALUControlIn) begin
         case (ALUControlIn)
-            ADD: ALU_Control = 2'b00;                           // ADD
-            ADC: ALU_Control = (carry_in == 1) ? 2'b00: 2'b10;  // if carry_in is 1, then ALU_Control = 2'b00, otherwise 2'b10
-            ADZ: ALU_Control = (zero_in == 1) ? 2'b00: 2'b10;   // if zero_in is 1, then ALU_Control = 2'b00, otherwise 2'b10
-            ADL: ALU_Control =  2'b00;                          // ADD
-            {ADI,2'b00}: ALU_Control = 2'b00;                   // ADD
-            NDU: ALU_Control = 2'b01;                            // NAND
-            NDC: ALU_Control =  (carry_in == 1) ? 2'b01: 2'b10;  // if carry_in is 1, then ALU_Control = 2'b01, otherwise 2'b10
-            NDZ: ALU_Control =  (zero_in == 1) ? 2'b01: 2'b10;   // if zero_in is 1, then ALU_Control = 2'b01, otherwise 2'b10
-            default: ALU_Control = 3'b010;                        // NOP
+            ADD, ADL,{ADI,2'b00} : begin
+                if reg_write_enable_in begin 
+                    alu_operation_out = 2'b00;
+		            carry_write_en = 1;
+		            zero_write_en = 1;
+		            reg_write_enable_out = 1;
+                end
+		    end
+            ADC: begin 
+                    if ( carry_in && reg_write_enable_in) begin 
+                    carry_write_en = 1;
+                    zero_write_en = 1;
+                    alu_operation_out = 2'b00;
+                    reg_write_enable_out = 1;
+                    end
+                    else begin 
+                    carry_write_en = 0;
+                    zero_write_en = 0;
+                    alu_operation_out = 2'b10;
+                    reg_write_enable_out = 0;
+                    end
+		    end
+            ADZ: begin  if reg_write_enable_in begin
+                    if ( zero_in ) begin 
+                    carry_write_en = 1;
+                    zero_write_en = 1;
+                    alu_operation_out = 2'b00;
+                    reg_write_enable_out = 1;
+                    end
+                    else begin 
+                    carry_write_en = 0;
+                    zero_write_en = 0;
+                    alu_operation_out = 2'b10;
+                    reg_write_enable_out = 0;
+                    end
+                end
+		    end
+            NDU:begin if (reg_write_enable_in ) begin 
+                    alu_operation_out = 2'b01;
+                    zero_write_en = 1;
+                    carry_write_en = 0;
+                    reg_write_enable_out = 1;
+		    end
+            NDC: begin if (reg_write_enable_in) begin
+                    if ( carry_in ) begin 
+                    carry_write_en = 0;
+                    zero_write_en = 1;
+                    alu_operation_out = 2'b01;
+                    reg_write_enable_out = 1;
+                    end
+                    else begin 
+                    carry_write_en = 0;
+                    zero_write_en = 0;
+                    alu_operation_out = 2'b10;
+                    reg_write_enable_out = 0;
+                    end
+		        end
+            end
+            NDZ: begin if  (reg_write_enable_in) begin
+                    if ( zero_in ) begin 
+                    carry_write_en = 0;
+                    zero_write_en = 1;
+                    alu_operation_out = 2'b01;
+                    reg_write_enable_out = 1;
+                    end
+                    else begin 
+                    carry_write_en = 0;
+                    zero_write_en = 0;
+                    alu_operation_out = 2'b10;
+                    reg_write_enable_out = 0;
+                    end
+		        end
+            end		  
+            default: begin
+                carry_write_en = 0;
+                zero_write_en = 0;
+                reg_write_enable_out = reg_write_enable_in;
+                alu_operation_out = aluCtrlOp;
+            end
         endcase
     end
 
