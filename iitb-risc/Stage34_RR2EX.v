@@ -2,10 +2,10 @@
 
 module RR2EX_Pipline_Reg (clk, rst, enable, RF_A1_In, RF_A2_In, RF_A3_From_WB_In, RF_D3_From_WB_In, RR_Write_En_In, 
 							RF_D1_In, RF_D2_In, RF_A1_Out, RF_A2_Out, RF_A3_From_WB_Out, RF_D3_From_WB_Out, 
-							RR_Write_En_Out, RF_D1_Out, RF_D2_Out, PC_In,PC_NEXT_IN, cntrl_in,pc_data_select, Instr_In, spec_taken_in, pc_out,pc_next_out, cntrl_out, instr_out, pc_data_select_out, spec_taken_out);
+							RR_Write_En_Out, RF_D1_Out, RF_D2_Out, pc_in,pc_next_in, cntrl_in,pc_data_select, instr_in, spec_taken_in, pc_out,pc_next_out, cntrl_out, instr_out, pc_data_select_out, spec_taken_out);
  
 	input clk, rst, enable, RR_Write_En_In, pc_data_select, spec_taken_in;
-	input [15:0] PC_In, RF_D1_In, RF_D2_In, Instr_In, RF_D3_From_WB_In, PC_NEXT_IN;
+	input [15:0] pc_in, RF_D1_In, RF_D2_In, instr_in, RF_D3_From_WB_In, pc_next_in;
 	input [2:0] RF_A1_In, RF_A2_In, RF_A3_From_WB_In;
 	input [9:0] cntrl_in;
 	output reg RR_Write_En_Out, pc_data_select_out;
@@ -34,10 +34,10 @@ module RR2EX_Pipline_Reg (clk, rst, enable, RF_A1_In, RF_A2_In, RF_A3_From_WB_In
 			if (enable) begin
 				spec_taken_out <= spec_taken_in;
 				pc_data_select_out <= pc_data_select;
-				pc_out <= PC_In;
-				pc_next_out <= PC_NEXT_IN;
+				pc_out <= pc_in;
+				pc_next_out <= pc_next_in;
 				cntrl_out <= cntrl_in;
-				instr_out <= Instr_In;
+				instr_out <= instr_in;
 				RF_D1_Out <= RF_D1_In;
 				RF_D2_Out <= RF_D2_In;
 				RF_A1_Out <= RF_A1_In;
