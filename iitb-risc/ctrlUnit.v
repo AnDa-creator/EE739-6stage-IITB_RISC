@@ -135,7 +135,7 @@ always @(*) begin
 			Reg_D3_Sel = 2'b00;
 			MEM_Wr_En = 1'b0; 
 		end
-
 	endcase
-		
+end
+
 endmodule

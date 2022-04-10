@@ -4,6 +4,9 @@ iverilog -o iitb_risc alu.v
 echo "Checking aluCtrl.v"
 iverilog -o iitb_risc aluCtrl.v
 
+echo "Checking ctrlUnit.v"
+iverilog -o iitb_risc ctrlUnit.v
+
 echo "Checking dataMem.v"
 iverilog -o iitb_risc dataMem.v
 
@@ -30,3 +33,15 @@ iverilog -o iitb_risc EX2MM_Stage.v
 
 echo "Checking MM2WB_Stage.v"
 iverilog -o iitb_risc MM2WB_Stage.v
+
+echo "Checking frwdingCntrl.v"
+iverilog -o iitb_risc frwdingCntrl.v
+
+echo "Checking branchJumpCtrl.v"
+iverilog -o iitb_risc branchJumpCtrl.v
+
+echo "Checking branchHist.v"
+iverilog -o iitb_risc branchHist.v
+
+echo "Running the whole module"
+iverilog -o iitb_risc -c fileList.txt

@@ -1,0 +1,14 @@
+topModule.v
+alu.v
+aluCtrl.v
+branchHist.v
+branchJumpCtrl.v
+ctrlUnit.v
+dataMem.v
+frwdingCntrl.v
+registerBank.v
+IF2ID_Stage.v
+ID2RR_Stage.v
+RR2EX_Stage.v
+EX2MM_Stage.v
+MM2WB_Stage.v
