@@ -6,7 +6,7 @@ input [1:0] ir_lsb_2;
 
 
 output reg RR_A1_Address_sel, RR_A2_Address_sel, RR_Wr_En, MEM_Wr_En, pc_data_select;
-output reg [1:0] RR_A3_Address_sel, EXE_ALU_Oper, Reg_D3_Sel, EXE_ALU_Src2;
+output reg [1:0] RR_A3_Address_sel, EXE_ALU_Oper, Reg_D3_Sel, EXE_ALU_Src;
 
 always @(*) begin
     case (opcode)
@@ -41,7 +41,7 @@ always @(*) begin
 			RR_A3_Address_sel = 2'b00;
 			RR_Wr_En = 1'b1;
 			pc_data_select = 1'b0;
-			EXE_ALU_Src2 = 2'b00;
+			EXE_ALU_Src = 2'b00;
 			EXE_ALU_Oper = 2'b01;
 			Reg_D3_Sel = 2'b00;
 			MEM_Wr_En = 1'b0;
@@ -52,7 +52,7 @@ always @(*) begin
 			RR_A3_Address_sel = 2'b10;
 			RR_Wr_En = 1'b1;
 			pc_data_select = 1'b0;
-			EXE_ALU_Src2 = 2'b10;
+			EXE_ALU_Src = 2'b10;
 			EXE_ALU_Oper = 2'b10;                           // no ALU operation
 			Reg_D3_Sel = 2'b10;
 			MEM_Wr_En = 1'b0;
@@ -63,7 +63,7 @@ always @(*) begin
 			RR_A3_Address_sel = 2'b10;
 			RR_Wr_En = 1'b1;
 			pc_data_select = 1'b0;
-			EXE_ALU_Src2 = 2'b01;
+			EXE_ALU_Src = 2'b01;
 			EXE_ALU_Oper = 2'b00;
 			Reg_D3_Sel = 2'b01;
 			MEM_Wr_En = 1'b0;
@@ -74,7 +74,7 @@ always @(*) begin
 			RR_A3_Address_sel = 2'b00;                      // not required during SW
 			RR_Wr_En = 1'b0;
 			pc_data_select = 1'b0;
-			EXE_ALU_Src2 = 2'b01;
+			EXE_ALU_Src = 2'b01;
 			EXE_ALU_Oper = 2'b00;
 			Reg_D3_Sel = 2'b01;                             // not required during SW
 			MEM_Wr_En = 1'b1;
@@ -84,7 +84,7 @@ always @(*) begin
 			RR_A2_Address_sel = 1'b1;                       // not rqd for jal 
 			RR_A3_Address_sel = 2'b10;                      // ir 11:9 
 			RR_Wr_En = 1'b1;
-			EXE_ALU_Src2 = 2'b00;
+			EXE_ALU_Src = 2'b00;
 			pc_data_select = 1'b1;
 			EXE_ALU_Oper = 2'b00;
 			Reg_D3_Sel = 2'b00; 
@@ -95,7 +95,7 @@ always @(*) begin
 			RR_A2_Address_sel = 1'b0; 
 			RR_A3_Address_sel = 2'b10;                      // ir 11:9 
 			RR_Wr_En = 1'b1;
-			EXE_ALU_Src2 = 2'b00;
+			EXE_ALU_Src = 2'b00;
 			pc_data_select = 1'b1;
 			EXE_ALU_Oper = 2'b00;
 			Reg_D3_Sel = 2'b00; 
@@ -107,7 +107,7 @@ always @(*) begin
 			RR_A3_Address_sel = 2'b10;                      // does not matter, the mux at mem stage select accordingly
 			RR_Wr_En = 1'b1;
 			pc_data_select = 1'b0;
-			EXE_ALU_Src2 = 2'b01;
+			EXE_ALU_Src = 2'b01;
 			EXE_ALU_Oper = 2'b00;
 			Reg_D3_Sel = 2'b01;
 			MEM_Wr_En = 1'b0;
@@ -118,7 +118,7 @@ always @(*) begin
 			RR_A3_Address_sel = 2'b00;                      // not required during SA and SM
 			RR_Wr_En = 1'b0;
 			pc_data_select = 1'b0;
-			EXE_ALU_Src2 = 2'b01;
+			EXE_ALU_Src = 2'b01;
 			EXE_ALU_Oper = 2'b00;
 			Reg_D3_Sel = 2'b01;                             // not required during SA and SM
 			MEM_Wr_En = 1'b1;
@@ -130,7 +130,7 @@ always @(*) begin
 			RR_A3_Address_sel = 2'b10;
 			RR_Wr_En = 1'b0;
 			pc_data_select = 1'b0;
-		    EXE_ALU_Src2 = 2'b00;
+		    EXE_ALU_Src = 2'b00;
 			EXE_ALU_Oper = 2'b00;
 			Reg_D3_Sel = 2'b00;
 			MEM_Wr_En = 1'b0; 

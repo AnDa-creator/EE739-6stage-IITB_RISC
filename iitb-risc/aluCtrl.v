@@ -1,5 +1,5 @@
 // SubModule :: ALU Control
-module ALUControl
+module alu_ctrl
 (
     input [3:0] ALUOp,
     input [1:0] Function,
