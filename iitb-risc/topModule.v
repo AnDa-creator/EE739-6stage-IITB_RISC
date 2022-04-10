@@ -130,7 +130,7 @@ module pipelined_processor (input clk, reset);
 	// program counter + instruction memory  
 	assign pc_enable = hazard_signal[4] & load_store_multi_freeze;
     register_n  program_counter ( .clk(clk), .reset(reset), .enable(pc_enable), .in(pc_current), .out(pc_out) );
-    instr_mem instr_mem ( .clk(clk), .reset(reset) , .inputAddr(pc_out), .irOut(instruction) );		
+    instr_mem instr_mem1( .clk(clk), .reset(reset) , .pc(pc_out), .instruction(instruction) );		
 	assign pc_next = pc_out + 1;
 	
 	//hazard resolver mux for flush
