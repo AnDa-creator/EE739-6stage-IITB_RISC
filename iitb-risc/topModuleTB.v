@@ -16,7 +16,7 @@ initial begin
     #20
     reset = 1'b0;
 
-   #700 $finish;  
+   #500 $finish;  
  end
  
 endmodule

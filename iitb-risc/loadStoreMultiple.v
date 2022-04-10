@@ -14,14 +14,14 @@ module load_store_multi_block
 	output reg [15:0] mem_data_for_sa_sm
 );
 
-	reg [6:0] imm;
+	reg [7:0] imm;
 	
 	initial begin 
 		reg_index_la_sa = 3'b000;
 		reg_index_lm_sm = 3'b000;
 		freeze = 1'b1;
 		reg_or_mem_enable = 1'b0;
-		mem_data_for_sa_sm = 15'd0;
+		mem_data_for_sa_sm = 16'b0000000000000000;
 		nop_mux_select = 1'b0;
     end
     
@@ -32,7 +32,7 @@ module load_store_multi_block
 		else
 			freeze = 1'b1;
 			
-		if (imm[6 - reg_index_la_sa] == 1'b1)
+		if (imm[7 - reg_index_la_sa] == 1'b1)
 			reg_or_mem_enable = 1'b1;
 		else
 			reg_or_mem_enable = 1'b0;
@@ -66,7 +66,7 @@ module load_store_multi_block
 	end
 
 	always @(posedge clk) begin 
-	  imm = ir[6:0];
+	  imm = ir[7:0];
 	  if (reg_index_la_sa >= 6) begin 
 		reg_index_la_sa = 3'b000;
 		reg_index_lm_sm = 3'b000;
@@ -75,7 +75,7 @@ module load_store_multi_block
 	    reg_index_la_sa = reg_index_la_sa + 1;
 	  end
 	  else if ((ir[15:12] == LM) || (ir[15:12] == SM)) begin
-			if (imm[6 - reg_index_la_sa] == 1'b1) begin
+			if (imm[7 - reg_index_la_sa] == 1'b1) begin
 				reg_index_lm_sm = reg_index_lm_sm + 1;
 			end	
 	    reg_index_la_sa = reg_index_la_sa + 1;

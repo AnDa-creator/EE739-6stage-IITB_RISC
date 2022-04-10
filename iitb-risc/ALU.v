@@ -24,8 +24,14 @@ module alu
             default: result = 0;                       // NOP
         endcase
         result = (alu_control == 2'b00) ? total_sum[15:0]: result;                       //result
-        zero = (result == 16'd0) ? 1'b1: 1'b0;                                             //zero
-        carry = (total_sum[16] == 1'b1) ? 1'b1: 1'b0;                                      //carry
+        if (alu_control == 2'b00 || alu_control == 2'b01) begin
+            zero = (result == 0) ? 1'b1 : 1'b0;
+            carry = (~(a[15] ^ b[15]) && (total_sum[15] ^ a[15])) ? 1'b1 : 1'b0;
+        end
+        else begin
+            zero = 1'b0;
+            carry = 1'b0;
+        end
     end
 
 endmodule

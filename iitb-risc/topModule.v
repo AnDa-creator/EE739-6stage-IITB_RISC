@@ -230,7 +230,13 @@ module pipelined_processor (input clk, reset);
 	RR2EX_Pipline_Reg rr_ex_pipe_reg (.clk(clk), .rst(rr_ex_reg_reset), .enable(rr_ex_pipe_rg_en), .RF_A1_In(A1_address), .RF_A2_In(A2_address), .RF_A3_From_WB_In(rd_addr_at_wb), 
 								.RF_D3_From_WB_In(rd_data_at_wb), .RR_Write_En_In(reg_wr_en_at_wb), .RF_D1_In(RF_D1), .RF_D2_In(RF_D2), .RF_A1_Out(rs1_addr_from_rr_ex), 
 								.RF_A2_Out(rs2_addr_from_rr_ex), .RF_A3_From_WB_Out(rd_prev_addr_from_rr_ex), .RF_D3_From_WB_Out(rd_prev_data_from_rr_ex), 
-                                .RR_Write_En_Out(rf_wr_en_prev_from_rr_ex), .RF_D1_Out(RF_D1_out_from_id_ex), .RF_D2_Out(RF_D2_out_from_id_ex));
+                                .RR_Write_En_Out(rf_wr_en_prev_from_rr_ex), .RF_D1_Out(RF_D1_out_from_id_ex), .RF_D2_Out(RF_D2_out_from_id_ex),
+								 .spec_taken_in(spec_taken_at_if_out), .pc_in(pc_from_if_id), 
+                                    .pc_next_in(pc_next_from_if_id), .instr_in(ir_from_if_id), .cntrl_in(control_signals), 
+                                    .pc_out(pc_out_from_id_ex), .pc_next_out(PC_next_from_id_ex), .instr_out(ir_out_from_id_ex), 
+                                    .spec_taken_out(spec_taken_at_id_out), .cntrl_out(control_sig_out_from_id_ex),
+                                    .pc_data_select(seperate_control_for_pc_select), .pc_data_select_out(data_select_control_for_pc_at_ex)
+								);
 										
  // ***********************************************************************************************************************************************
  // ***********************************************************************************************************************************************
